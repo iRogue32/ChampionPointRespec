@@ -1,0 +1,17 @@
+<GuiXml>
+  <Controls>
+    <TopLevelControl name="ChampPointRespecWindow1" hidden="false" >
+      <Dimensions x="650" y="545" />
+      <Anchor point="CENTER" relativeTo="GuiRoot" relativePoint="CENTER" />
+ 
+      <Controls>
+        <Backdrop name="$(parent)_Backdrop" inherits="ZO_DefaultBackdrop" width="600" height="25" inherits="ZO_DefaultBackdrop" >
+        </Backdrop>
+		<Button name="$(parent)_Close" texture="ESOUI/art/buttons/decline_up.dds" >
+			<Dimensions x="25" y="25" >
+			<Anchor point="TOPRIGHT" relativeTo="$(parent)" relativePoint="TOPRIGHT" >
+		</Button>
+      </Controls>
+    </TopLevelControl>
+  </Controls>
+</GuiXml>

@@ -8,6 +8,9 @@
 
 ; Changelog:
 ;
+;Version 1.0.1 (1/30/2018)
+; * fixed file name
+;
 ; Version 1.0.0 (1/22/2018)
 ; * Initial Release (Morrowind)
 
@@ -29,6 +32,7 @@ libs\LibAddonMenu-2.0\controls\iconpicker.lua
 libs\LibAddonMenu-2.0\controls\divider.lua
 
 
+ChampionPointRespec.xml
 ChampionPointRespec.lua
 lang/en.lua
 bindings.xml
