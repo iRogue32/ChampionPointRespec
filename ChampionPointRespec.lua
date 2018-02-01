@@ -151,7 +151,7 @@ ChampionPointRespec.Defaults = {
 }
 
 local function savePositions(self)
---	d("saving positions...")
+	--d("saving positions...")
 	local valid, point, _, relPoint, offsetX, offsetY = self:GetAnchor(0)
 	if valid then
 		sv.ui.point = point
@@ -257,14 +257,14 @@ local function populateDropdown(text)
 end
 
 function toggleCPRUI() 
-	ChampionPointRespecWindow:ToggleHidden()
-	SetGameCameraUIMode(not ChampionPointRespecWindow:IsHidden())
+	ChampPointRespecWindow1:ToggleHidden()
+	SetGameCameraUIMode(not ChampPointRespecWindow1:IsHidden())
 end
 
-local function UI()
-	ChampionPointRespecWindow:ToggleHidden()
-	SetGameCameraUIMode(not ChampionPointRespecWindow:IsHidden())
-end
+--local function UI()
+	--ChampionPointRespecWindow:ToggleHidden()
+	--SetGameCameraUIMode(not ChampionPointRespecWindow:IsHidden())
+--end
 
 local function updateUI(index)
 	
@@ -332,6 +332,15 @@ function ChampionPointRespec:createWindow()
 	
 	selected = 1
 	
+	--ChampPointRespecWindow1:SetMovable(true)
+	--ChampPointRespecWindow1:SetAnchor(sv.ui.point, GuiRoot, sv.ui.relPoint, sv.ui.offsetX, sv.ui.offsetY)
+	
+	
+	ChampPointRespecWindow1:SetHandler("OnMoveStop", savePositions)
+	
+	
+	ChampPointRespecWindow1CloseButton:SetHandler("OnClicked", function() ChampPointRespecWindow1:SetHidden(true) end)
+	
 	ChampPointRespecWindow1RenameEditBoxBackdropEditBox:SetHandler("OnEnter", function() renameCPConfig(ChampPointRespecWindow1RenameEditBoxBackdropEditBox:GetText()) ChampPointRespecWindow1RenameEditBoxBackdropEditBox:Clear() ChampPointRespecWindow1RenameEditBoxBackdropEditBox:LoseFocus() return end)
 	
 	ChampPointRespecWindow1SaveButton:SetHandler("OnClicked", function() saveCurrentCP(selected) updateUI(selected) end)
@@ -392,6 +401,15 @@ end
 function ChampionPointRespec:Initialize()
 	sv = ZO_SavedVars:New("ChampionPointRespec_sv", 1, nil, ChampionPointRespec.Defaults)
 	ChampionPointRespec:createWindow()
+	ChampPointRespecWindow1:ClearAnchors()
+	ChampPointRespecWindow1:SetAnchor(sv.ui.point, GuiRoot, sv.ui.relPoint, sv.ui.offsetX, sv.ui.offsetY)
+	CHAMPION_PERKS_SCENE:RegisterCallback("StateChange", function(oldstate, newState)
+		if(CHAMPION_PERKS_SCENE:IsShowing()) then
+			ChampPointRespecWindow1:SetHidden(false)
+		else
+			ChampPointRespecWindow1:SetHidden(true)
+		end
+	end)
 	--SLASH_COMMANDS["/showcurrentcp"] = slashCommandTest
 	--SLASH_COMMANDS["/savecurrentcpconfig"] = saveCurrentCP
 	--SLASH_COMMANDS["/clearcpconfig"] = clearCP

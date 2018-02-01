@@ -1,7 +1,7 @@
 ## Title: Champion Point Respec
 ## Description:
 ## Author: iRogue32
-## Version: 1.0.0
+## Version: 1.1.0
 ## APIVersion: 100021
 ## SavedVariables: ChampionPointRespec_sv
 ## OptionalDependsOn: LibAddonMenu-2.0
@@ -10,6 +10,7 @@
 ;
 ;Version 1.1.0 (1/31/2018)
 ; * Made changes to how the UI is generated
+; * UI now opens when user open Champion Point menu
 ;
 ;Version 1.0.1 (1/30/2018)
 ; * fixed file name
