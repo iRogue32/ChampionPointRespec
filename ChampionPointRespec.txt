@@ -2,11 +2,15 @@
 ## Description:
 ## Author: iRogue32
 ## Version: 1.1.0
-## APIVersion: 100021
+## APIVersion: 100022
 ## SavedVariables: ChampionPointRespec_sv
 ## OptionalDependsOn: LibAddonMenu-2.0
 
 ; Changelog:
+;
+;
+;Version 1.1.1 (2/22/2018)
+; * Updated APIVersion to Dragon Bones Update
 ;
 ;Version 1.1.0 (1/31/2018)
 ; * Made changes to how the UI is generated
