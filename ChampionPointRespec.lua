@@ -232,7 +232,7 @@ end
 
 local function populateDropdown(text)
 
-	m_comboBox:ClearItems()
+	m_CPR_comboBox:ClearItems()
 	local tItemData = {
 		[1] = sv[11][1],
 		[2] = sv[11][2],
@@ -247,11 +247,11 @@ local function populateDropdown(text)
 	}
 	
 	for i, name in ipairs(tItemData) do
-		local itemEntry = m_comboBox:CreateItemEntry(name, ItemSelectCallback)
+		local itemEntry = m_CPR_comboBox:CreateItemEntry(name, ItemSelectCallback)
 		
-		m_comboBox:AddItem(itemEntry, ZO_COMBOBOX_SURPRESS_UPDATE)
+		m_CPR_comboBox:AddItem(itemEntry, ZO_COMBOBOX_SURPRESS_UPDATE)
 	end
-	m_comboBox:UpdateItems()
+	m_CPR_comboBox:UpdateItems()
 	m_comboBox:SetSelectedItem(text)
 	--m_ComboBox:SelectItemByIndex(selected)
 end
@@ -351,17 +351,17 @@ function ChampionPointRespec:createWindow()
 	
 	-- DROPDOWN --
 	
-	comboBox = WINDOW_MANAGER:GetControlByName("ChampPointRespecWindow1", "Dropdown")
-	comboBox.data = { tooltipText = "Select CP Configuration"}
+	CPR_comboBox = WINDOW_MANAGER:GetControlByName("ChampPointRespecWindow1", "Dropdown")
+	CPR_comboBox.data = { tooltipText = "Select CP Configuration"}
 	
-	comboBox:SetHandler("OnMouseEnter", ZO_Options_OnMouseEnter)
-	comboBox:SetHandler("OnMouseExit", ZO_Options_OnMouseExit)
+	CPR_comboBox:SetHandler("OnMouseEnter", ZO_Options_OnMouseEnter)
+	CPR_comboBox:SetHandler("OnMouseExit", ZO_Options_OnMouseExit)
 	
-	m_comboBox = comboBox.m_comboBox
-	m_comboBox:SetSortsItems(false)
+	m_CPR_comboBox = CPR_comboBox.m_CPR_comboBox
+	m_CPR_comboBox:SetSortsItems(false)
 	
-	m_comboBox:ClearItems()
-	function ItemSelectCallback(comboBox, itemName, item, selectionChanged)
+	m_CPR_comboBox:ClearItems()
+	function ItemSelectCallback(CPR_comboBox, itemName, item, selectionChanged)
 --		d("item selected")
 		for i = 1, 10 do
 			if itemName == sv[11][i] then
@@ -372,7 +372,7 @@ function ChampionPointRespec:createWindow()
 	end
 	
 	
-	m_comboBox:ClearItems()
+	m_CPR_comboBox:ClearItems()
 	local tItemData = {
 		[1] = sv[11][1],
 		[2] = sv[11][2],
@@ -387,13 +387,13 @@ function ChampionPointRespec:createWindow()
 	}
 	
 	for i, name in ipairs(tItemData) do
-		local itemEntry = m_comboBox:CreateItemEntry(name, ItemSelectCallback)
+		local itemEntry = m_CPR_comboBox:CreateItemEntry(name, ItemSelectCallback)
 		
-		m_comboBox:AddItem(itemEntry, ZO_COMBOBOX_SURPRESS_UPDATE)
+		m_CPR_comboBox:AddItem(itemEntry, ZO_COMBOBOX_SURPRESS_UPDATE)
 	end
 --	d(itemData)
-	m_comboBox:UpdateItems()
-	m_comboBox:SelectFirstItem()
+	m_CPR_comboBox:UpdateItems()
+	m_CPR_comboBox:SelectFirstItem()
 	
 end
 
