@@ -357,7 +357,7 @@ function ChampionPointRespec:createWindow()
 	CPR_comboBox:SetHandler("OnMouseEnter", ZO_Options_OnMouseEnter)
 	CPR_comboBox:SetHandler("OnMouseExit", ZO_Options_OnMouseExit)
 	
-	m_CPR_comboBox = CPR_comboBox.m_CPR_comboBox
+	m_CPR_comboBox = CPR_comboBox.m_comboBox
 	m_CPR_comboBox:SetSortsItems(false)
 	
 	m_CPR_comboBox:ClearItems()
