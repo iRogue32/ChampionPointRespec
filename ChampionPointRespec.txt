@@ -1,12 +1,16 @@
 ## Title: Champion Point Respec
 ## Description:
 ## Author: iRogue32
-## Version: 1.1.0
-## APIVersion: 100023
+## Version: 1.1.3
+## APIVersion: 100024
 ## SavedVariables: ChampionPointRespec_sv
 ## OptionalDependsOn: LibAddonMenu-2.0
 
 ; Changelog:
+;
+;Version 1.1.3 (8/27/2018)
+; * Update API Version to Wolfhunter Update
+; * Fixed Addon loading issue with Votan's Addon Menu
 ;
 ;Version 1.1.2 (6/7/2018)
 ; * Updated API Version to Summerset Update
