@@ -426,5 +426,5 @@ local function OnAddonLoaded(event, addonName)
 	ChampionPointRespec:Initialize()
 end
 
-EVENT_MANAGER:RegisterForEvent(ADDON_NAME, EVENT_ADD_ON_LOADED, OnAddonLoaded)
+EVENT_MANAGER:RegisterForEvent(ChampionPointRespec.name, EVENT_ADD_ON_LOADED, OnAddonLoaded)
 EVENT_MANAGER:RegisterForEvent(ZO_CHAMPION)
