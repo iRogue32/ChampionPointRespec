@@ -8,11 +8,12 @@
 
 ; Changelog:
 ;
-;Version 2.1.0
+;Version 2.1.0 (9/6/2018)
 ; * Mouse will enabled and disabled when the UI is opened or closed
 ; * Added a settings panel 
 ; * Can now disable gold cost warning
 ; * Can now diable UI appearing in CP Menu
+; * Added slash command to load CP Config from chat
 ;
 ;Version 2.0.0 (9/4/2018)
 ; * New, cleaner UI

@@ -89,7 +89,19 @@ function CPR2.DeleteCPHash(input)
 	ReloadUI()
 end
 
-function CPR2.LoadCPConiguration()
+function CPR2.LoadCPConfigFromName(input)
+	for k, v in pairs (CPR2.savedVariables.specs) do
+		if v.name == input then
+			CPR2.configSelected = k
+			CPR2.LoadCPConfiguration()
+			CPR2.UpdateUI()
+			return
+		end
+	end
+	d("Please enter a valid name in the format: /cpr <name>")
+end
+
+function CPR2.LoadCPConfiguration()
 	if CPR2.savedVariables["displayWarning"] then
 		CPR2.DisplayLoadCPFromHashDialog()
 	else 
@@ -434,6 +446,7 @@ function CPR2:Initialize()
 	
 	CPR2.InitializeAddonSettingsPanel()
 	
+	SLASH_COMMANDS["/cpr"] = CPR2.LoadCPConfigFromName
 	--SLASH_COMMANDS["/cphash"] = CPR2.createCPHash
 	--SLASH_COMMANDS["/savecphash"] = CPR2.saveCPHash
 	--SLASH_COMMANDS["/deletecphash"] = CPR2.DeleteCPHash
