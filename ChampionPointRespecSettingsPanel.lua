@@ -8,7 +8,7 @@ CPR2.settings["panelData"] =
 	type = "panel",
 	name = "Champion Point Respec",
 	author = "iRogue32",
-	version = "2.0.0",
+	version = "2.1.0",
 	slashCommand = "/cprsettings"
 	
 }

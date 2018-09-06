@@ -1,12 +1,18 @@
 ## Title: Champion Point Respec
 ## Description:
 ## Author: iRogue32
-## Version: 2.0.0
+## Version: 2.1.0
 ## APIVersion: 100024
 ## SavedVariables: ChampionPointRespec_sv CPR2
 ## OptionalDependOn: LibAddonMenu-2.0
 
 ; Changelog:
+;
+;Version 2.1.0
+; * Mouse will enabled and disabled when the UI is opened or closed
+; * Added a settings panel 
+; * Can now disable gold cost warning
+; * Can now diable UI appearing in CP Menu
 ;
 ;Version 2.0.0 (9/4/2018)
 ; * New, cleaner UI
