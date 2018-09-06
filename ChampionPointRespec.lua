@@ -268,6 +268,9 @@ end
 -- toggles UI window --
 function CPR2.toggleCPRUI() 
 	ChampPointRespecWindow1:ToggleHidden()
+	if not CHAMPION_PERKS_SCENE:IsShowing() then
+		SetGameCameraUIMode(not ChampPointRespecWindow1:IsHidden())
+	end
 end
 
 function CPR2.savePositions(self)
