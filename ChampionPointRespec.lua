@@ -1,408 +1,414 @@
-ChampionPointRespec = {}
 
-local LAM = LibStub("LibAddonMenu-2.0")
+local CPR2 = ChampionPointRespecV2 or {}
 
-local ChampionPointRespec = ChampionPointRespec
+CPR2.name = "ChampionPointRespec"
+CPR2.variableVersion = 1
+CPR2.configSelected = 0
+CPR2.aspectSelected = 1
+CPR2.HEALTH_ASPECT = 1
+CPR2.MAGICKA_ASPECT = 2
+CPR2.STAMINA_ASPECT = 3
 
-ChampionPointRespec.name = "ChampionPointRespec"
-ChampionPointRespec.version = 1
+CPR2.Default = {
 
-THE_TOWER       = 1
-THE_LORD        = 2
-THE_LADY        = 3
-THE_STEED       = 4
-THE_RITUAL      = 5
-THE_ATRONACH    = 6
-THE_APPRENTICE  = 7
-THE_SHADOW      = 8
-THE_LOVER       = 9
+	["specs"] = {}, 
 
-ChampionPointRespec.Defaults = {
-	[1] = {
-		[1] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[2] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[3] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[4] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[5] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[6] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[7] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[8] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[9] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0}
-	},
-	[2] = {
-		[1] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[2] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[3] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[4] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[5] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[6] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[7] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[8] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[9] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0}
-	},
-	[3] = {
-		[1] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[2] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[3] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[4] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[5] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[6] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[7] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[8] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[9] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0}
-	},
-	[4] = {
-		[1] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[2] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[3] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[4] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[5] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[6] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[7] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[8] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[9] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0}
-	},
-	[5] = {
-		[1] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[2] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[3] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[4] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[5] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[6] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[7] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[8] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[9] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0}
-	},
-	[6] = {
-		[1] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[2] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[3] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[4] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[5] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[6] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[7] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[8] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[9] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0}
-	},
-	[7] = {
-		[1] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[2] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[3] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[4] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[5] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[6] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[7] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[8] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[9] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0}
-	},
-	[8] = {
-		[1] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[2] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[3] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[4] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[5] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[6] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[7] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[8] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[9] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0}
-	},
-	[9] = {
-		[1] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[2] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[3] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[4] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[5] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[6] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[7] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[8] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[9] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0}
-	},
-	[10] = {
-		[1] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[2] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[3] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[4] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[5] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[6] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[7] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[8] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0},
-		[9] = {[1] = 0, [2] = 0, [3] = 0, [4] = 0}
-	},
-	[11] = {
-		[1] = "Config 1",
-		[2] = "Config 2",
-		[3] = "Config 3",
-		[4] = "Config 4",
-		[5] = "Config 5",
-		[6] = "Config 6",
-		[7] = "Config 7",
-		[8] = "Config 8",
-		[9] = "Config 9",
-		[10] = "Config 10"
-	},
-	
 	["ui"] = {
-		["offsetX"] = 0,
-		["offsetY"] = 0,
-		["point"] = CENTER,
-		["relPoint"] = CENTER
-	}
+		["offsetX"] = -5,
+		["offsetY"] = 5,
+		["point"] = TOPRIGHT,
+		["relPoint"] = TOPRIGHT
+	},
 	
+	["convertFromOldSavedVariables"] = true
 }
 
-local function savePositions(self)
-	--d("saving positions...")
-	local valid, point, _, relPoint, offsetX, offsetY = self:GetAnchor(0)
-	if valid then
-		sv.ui.point = point
-		sv.ui.relPoint = relPoint
-		sv.ui.offsetX = offsetX
-		sv.ui.offsetY = offsetY
+-- saves cp hash to sv by name
+function CPR2.saveCPHash(input)
+	if not CPR2.IsValidName(input) then
+		return CPR2.NotValidName(input)
 	end
+	local h = CPR2.createCPHash()
+	table.insert(CPR2.savedVariables.specs, {name = input, hash = h})
+	CPR2.PopulateDropdown()
+	CPR2.SetSelectedConfig(input)
 end
 
-local function resetCP()
---	d("resetting CP...")
-	SetChampionIsInRespecMode(true)
-	ClearPendingChampionPoints()
+-- checks if config name is already in use
+function CPR2.IsValidName(name)
+	for k, v in pairs (CPR2.savedVariables.specs) do
+		if v.name == name then
+			return false
+		end
+	end
+	return true
 end
 
-local function setCPBuild(input)
-	local index = tonumber(input)
-	if index == nil then d("Please enter which CP configuration slot you would like to set as your current build after the command. Valid Slots: 1 - 5") return end
-	resetCP()
+function CPR2.NotValidName(name)
+	d(name.." already exists. Please enter a unique name.")
+end
+
+-- returns hash of currently spent CP
+function CPR2.createCPHash(input)
+	local hash = ""
 	for discipline = 1, GetNumChampionDisciplines() do
-		--d(GetChampionDisciplineName(discipline))
 		for skill = 1, GetNumChampionDisciplineSkills() - 4 do																								
-			SetNumPendingChampionPoints(discipline, skill, sv[index][discipline][skill])
+			hash = hash..CPR2.GetBase64(GetNumPointsSpentOnChampionSkill(discipline, skill))
+		end
+	end
+	return hash
+end
+
+-- loads CP from hash in saved variables
+function CPR2.LoadCPFromHash(input)
+	CPR2.resetCP()
+	local hash = CPR2.savedVariables.specs[CPR2.configSelected].hash
+	local counter = 1
+	for discipline = 1, GetNumChampionDisciplines() do
+		for skill = 1, GetNumChampionDisciplineSkills() - 4 do																								
+			SetNumPendingChampionPoints(discipline, skill, CPR2.GetBase10(string.sub(hash, counter, counter + 1)))
+			counter = counter + 2
 		end
 	end
 	SpendPendingChampionPoints()
 end
 
-local function showCPBuild(input)
-	local index = tonumber(input)
-	if index == nil then d("Please enter which CP configuration slot you would like to view after the command. Valid Slots: 1 - 5") return end
-	for discipline = 1, GetNumChampionDisciplines() do
-		d(GetChampionDisciplineName(discipline))
-		for skill = 1, GetNumChampionDisciplineSkills() - 4 do
-			d(string.format(GetChampionSkillName(discipline, skill)..": "..sv[index][discipline][skill]))
-		end
-	end
+-- clears all spent and pending CP
+function CPR2.resetCP()
+	SetChampionIsInRespecMode(true)
+	ClearPendingChampionPoints()
 end
 
-local function saveCurrentCP(input)
-	local index = tonumber(input)
-	if index == nil then d("Please enter which slot you would like to save your CP configuration to after the command. Valid Slots: 1 - 5") return end
-	for discipline = 1, GetNumChampionDisciplines() do
-		for skill = 1, GetNumChampionDisciplineSkills() - 4 do
-			sv[index][discipline][skill] = GetNumPointsSpentOnChampionSkill(discipline, skill)
-		end
-	end
+-- deletes hash from saved variables by name
+function CPR2.DeleteCPHash(input) 
+	table.remove(CPR2.savedVariables.specs, CPR2.configSelected)
+	CPR2.SetSelectedConfig(nil)
+	CPR2.PopulateDropdown()
+	ReloadUI()
 end
 
-local function clearCP(input)
-	local index = tonumber(input)
-	if index == nil then d("Please enter which CP configuration slot you would like to clear after the command. Valid Slots: 1 - 5") return end
-	
+function CPR2.DisplayCreateNewConfigDialog()
+	ZO_Dialogs_ShowDialog("CPR2_SAVE_CONFIG", nil, nil);
 end
 
-local function slashCommandTest()
-	d("this is a test pls ignore")
-	for attribute = 1, GetNumChampionDisciplines() do
-		if attribute == THE_TOWER then d("THE TOWER") end
-		if attribute == THE_LORD then d("THE_LORD") end
-		if attribute == THE_LADY then d("THE_LADY") end
-		if attribute == THE_STEED then d("THE_STEED") end
-		if attribute == THE_RITUAL then d("THE_RITUAL") end
-		if attribute == THE_ATRONACH then d("THE_ATRONACH") end
-		if attribute == THE_APPRENTICE then d("THE_APPRENTICE") end
-		if attribute == THE_SHADOW then d("THE_SHADOW") end
-		if attribute == THE_LOVER then d("THE_LOVER") end
-		for skill = 1, GetNumChampionDisciplineSkills() - 4 do
-			local cpInfo = GetNumPointsSpentOnChampionSkill(attribute, skill)
-			d(string.format(GetChampionSkillName(attribute, skill) .. ": " .. cpInfo))
-		end
-	end
+function CPR2.DisplayLoadCPFromHashDialog()
+	ZO_Dialogs_ShowDialog("CPR2_CHAMPION_CONFIRM_COST", nil, { mainTextParams = { GetChampionRespecCost(), ZO_Currency_GetPlatformFormattedGoldIcon() } });
 end
 
-local function createText()
-	text = string.format("shadow ward: "..GetNumPointsSpentOnChampionSkill(THE_SHADOW, 3))
-end
-
-local function populateDropdown(text)
-
-	m_CPR_comboBox:ClearItems()
-	local tItemData = {
-		[1] = sv[11][1],
-		[2] = sv[11][2],
-		[3] = sv[11][3],
-		[4] = sv[11][4],
-		[5] = sv[11][5],
-		[6] = sv[11][6],
-		[7] = sv[11][7],
-		[8] = sv[11][8],
-		[9] = sv[11][9],
-		[10] = sv[11][10],
-	}
-	
-	for i, name in ipairs(tItemData) do
-		local itemEntry = m_CPR_comboBox:CreateItemEntry(name, ItemSelectCallback)
-		
-		m_CPR_comboBox:AddItem(itemEntry, ZO_COMBOBOX_SURPRESS_UPDATE)
-	end
-	m_CPR_comboBox:UpdateItems()
-	m_comboBox:SetSelectedItem(text)
-	--m_ComboBox:SelectItemByIndex(selected)
-end
-
-function toggleCPRUI() 
-	ChampPointRespecWindow1:ToggleHidden()
-	SetGameCameraUIMode(not ChampPointRespecWindow1:IsHidden())
-end
-
---local function UI()
-	--ChampionPointRespecWindow:ToggleHidden()
-	--SetGameCameraUIMode(not ChampionPointRespecWindow:IsHidden())
---end
-
-local function updateUI(index)
-	
-	ChampPointRespecWindow1Tower_1:SetText("|c41873f"..GetChampionSkillName(1, 1)..": "..sv[index][1][1].."|r")
-	ChampPointRespecWindow1Tower_2:SetText("|c41873f"..GetChampionSkillName(1, 2)..": "..sv[index][1][2].."|r")
-	ChampPointRespecWindow1Tower_3:SetText("|c41873f"..GetChampionSkillName(1, 3)..": "..sv[index][1][3].."|r")
-	ChampPointRespecWindow1Tower_4:SetText("|c41873f"..GetChampionSkillName(1, 4)..": "..sv[index][1][4].."|r")
-
-	ChampPointRespecWindow1Shadow_1:SetText("|c41873f"..GetChampionSkillName(8, 1)..": "..sv[index][8][1].."|r")
-	ChampPointRespecWindow1Shadow_2:SetText("|c41873f"..GetChampionSkillName(8, 2)..": "..sv[index][8][2].."|r")
-	ChampPointRespecWindow1Shadow_3:SetText("|c41873f"..GetChampionSkillName(8, 3)..": "..sv[index][8][3].."|r")
-	ChampPointRespecWindow1Shadow_4:SetText("|c41873f"..GetChampionSkillName(8, 4)..": "..sv[index][8][4].."|r")
-	
-	ChampPointRespecWindow1Lover_1:SetText("|c41873f"..GetChampionSkillName(9, 1)..": "..sv[index][9][1].."|r")
-	ChampPointRespecWindow1Lover_2:SetText("|c41873f"..GetChampionSkillName(9, 2)..": "..sv[index][9][2].."|r")
-	ChampPointRespecWindow1Lover_3:SetText("|c41873f"..GetChampionSkillName(9, 3)..": "..sv[index][9][3].."|r")
-	ChampPointRespecWindow1Lover_4:SetText("|c41873f"..GetChampionSkillName(9, 4)..": "..sv[index][9][4].."|r")
-	
-	ChampPointRespecWindow1Steed_1:SetText("|cd14200"..GetChampionSkillName(4, 1)..": "..sv[index][4][1].."|r")
-	ChampPointRespecWindow1Steed_2:SetText("|cd14200"..GetChampionSkillName(4, 2)..": "..sv[index][4][2].."|r")
-	ChampPointRespecWindow1Steed_3:SetText("|cd14200"..GetChampionSkillName(4, 3)..": "..sv[index][4][3].."|r")
-	ChampPointRespecWindow1Steed_4:SetText("|cd14200"..GetChampionSkillName(4, 4)..": "..sv[index][4][4].."|r")
-	
-	ChampPointRespecWindow1Lady_1:SetText("|cd14200"..GetChampionSkillName(3, 1)..": "..sv[index][3][1].."|r")
-	ChampPointRespecWindow1Lady_2:SetText("|cd14200"..GetChampionSkillName(3, 2)..": "..sv[index][3][2].."|r")
-	ChampPointRespecWindow1Lady_3:SetText("|cd14200"..GetChampionSkillName(3, 3)..": "..sv[index][3][3].."|r")
-	ChampPointRespecWindow1Lady_4:SetText("|cd14200"..GetChampionSkillName(3, 4)..": "..sv[index][3][4].."|r")
-	
-	
-	ChampPointRespecWindow1Lord_1:SetText("|cd14200"..GetChampionSkillName(2, 1)..": "..sv[index][2][1].."|r")
-	ChampPointRespecWindow1Lord_2:SetText("|cd14200"..GetChampionSkillName(2, 2)..": "..sv[index][2][2].."|r")
-	ChampPointRespecWindow1Lord_3:SetText("|cd14200"..GetChampionSkillName(2, 3)..": "..sv[index][2][3].."|r")
-	ChampPointRespecWindow1Lord_4:SetText("|cd14200"..GetChampionSkillName(2, 4)..": "..sv[index][2][4].."|r")
-	
-	ChampPointRespecWindow1Apprentice_1:SetText("|c008ed1"..GetChampionSkillName(7, 1)..": "..sv[index][7][1].."|r")
-	ChampPointRespecWindow1Apprentice_2:SetText("|c008ed1"..GetChampionSkillName(7, 2)..": "..sv[index][7][2].."|r")
-	ChampPointRespecWindow1Apprentice_3:SetText("|c008ed1"..GetChampionSkillName(7, 3)..": "..sv[index][7][3].."|r")
-	ChampPointRespecWindow1Apprentice_4:SetText("|c008ed1"..GetChampionSkillName(7, 4)..": "..sv[index][7][4].."|r")
-	
-	ChampPointRespecWindow1Atronach_1:SetText("|c008ed1Phys. Weapon Expert: "..sv[index][6][1].."|r")
-	ChampPointRespecWindow1Atronach_2:SetText("|c008ed1"..GetChampionSkillName(6, 2)..": "..sv[index][6][2].."|r")
-	ChampPointRespecWindow1Atronach_3:SetText("|c008ed1"..GetChampionSkillName(6, 3)..": "..sv[index][6][3].."|r")
-	ChampPointRespecWindow1Atronach_4:SetText("|c008ed1"..GetChampionSkillName(6, 4)..": "..sv[index][6][4].."|r")
-	
-	ChampPointRespecWindow1Ritual_1:SetText("|c008ed1"..GetChampionSkillName(5, 1)..": "..sv[index][5][1].."|r")
-	ChampPointRespecWindow1Ritual_2:SetText("|c008ed1"..GetChampionSkillName(5, 2)..": "..sv[index][5][2].."|r")
-	ChampPointRespecWindow1Ritual_3:SetText("|c008ed1"..GetChampionSkillName(5, 3)..": "..sv[index][5][3].."|r")
-	ChampPointRespecWindow1Ritual_4:SetText("|c008ed1"..GetChampionSkillName(5, 4)..": "..sv[index][5][4].."|r")
-	
-	ChampPointRespecWindow1SaveButton:SetText("Save to "..sv[11][selected])
-	ChampPointRespecWindow1LoadButton:SetText("Load from "..sv[11][selected])
-	
-end
-
-local function renameCPConfig(text) 
-	if text == nil or text == '' then
+function CPR2.SetSelectedConfig(name)
+	if name == nil then
+		CPR2.configSelected = 0
+		CPR2.UpdateUI()
 		return
 	end
-	sv[11][selected] = text
-	populateDropdown(text)
-	updateUI(selected)
+	ChampPointRespecWindow1ConfigSelectorPanel:SetHidden(true)
+	for k, v in pairs (CPR2.savedVariables.specs) do
+		if name == v.name then
+			CPR2.configSelected = k
+		end
+	end
+	CPR2.UpdateUI()
 end
 
-function ChampionPointRespec:createWindow()
+function CPR2.ToggleDropdown()
+	CPR2.PopulateDropdown()
+	if ChampPointRespecWindow1ConfigSelectorPanel:IsHidden() then
+		ChampPointRespecWindow1ConfigSelectorPanel:SetHidden(false)
+	else
+		ChampPointRespecWindow1ConfigSelectorPanel:SetHidden(true)
+	end
+end
+
+function CPR2.PopulateDropdown()
+	local numConfigs = 0
+	for k, v in pairs (CPR2.savedVariables.specs) do
+		local button = WINDOW_MANAGER:GetControlByName("ChampPointRespecWindow1ConfigSelectorPanelScrollChildButton"..k)
+		if not button then
+			button = WINDOW_MANAGER:CreateControl("ChampPointRespecWindow1ConfigSelectorPanelScrollChildButton"..k, ChampPointRespecWindow1ConfigSelectorPanelScrollChild, CT_BUTTON)
+			button:SetAnchor(TOPLEFT, ChampPointRespecWindow1ConfigSelectorPanelScrollChild, TOPLEFT, 8, 5 + (k - 1) * 22)
+			button:SetDimensions(280, 22)
+			button:SetText(v.name)
+			button:SetFont("ZoFontWinH4")
+			button:SetHorizontalAlignment(0)
+			button:SetVerticalAlignment(1)
+			button:SetClickSound("Click")
+			button:SetNormalFontColor(1.0,1.0,1.0,1)
+			button:SetMouseOverFontColor(0.91,0.875,0.686,1)
+			button:SetHandler("OnMouseDown", function() CPR2.SetSelectedConfig(v.name) end)
+		else 
+			button:SetText(v.name)
+		end
+		numConfigs = numConfigs + 1
+	end
+	local control = WINDOW_MANAGER:GetControlByName("ChampPointRespecWindow1ConfigSelectorPanelScrollChild")
+	local numChild = control:GetNumChildren()
+	if numChild > numConfigs then 
+		for i = numConfigs + 1, numChild, 1 do
+			local button = WINDOW_MANAGER:GetControlByName("ChampPointRespecWindow1ConfigSelectorPanelScrollChildButton"..i)
+			button:SetHidden(true)
+		end
+	end
+	ChampPointRespecWindow1ConfigSelectorPanelScrollChild:SetHeight(#CPR2.savedVariables.specs * 22 + 10)
+end
+
+function CPR2.UpdateAspectSelected(aspect)
+	if aspect == CPR2.HEALTH_ASPECT then
+		CPR2.aspectSelected = 1
+		CPR2.UpdateUI()
+	end
+	if aspect == CPR2.MAGICKA_ASPECT then
+		CPR2.aspectSelected = 2
+		CPR2.UpdateUI()
+	end
+	if aspect == CPR2.STAMINA_ASPECT then
+		CPR2.aspectSelected = 3
+		CPR2.UpdateUI()
+	end
+end
+
+function CPR2.UpdateUI()
+	if CPR2.configSelected == 0 then
+		ChampPointRespecWindow1ConfigSelector:SetText("Select CP Configuration")
+		ChampPointRespecWindow1LoadProfileBGLoadConfigButton:SetEnabled(false)
+		ChampPointRespecWindow1LoadProfileBGDeleteConfigButton:SetEnabled(false)
+	end
+	if CPR2.configSelected > 0 then 
+		ChampPointRespecWindow1ConfigSelector:SetText(CPR2.savedVariables.specs[CPR2.configSelected].name)
+		ChampPointRespecWindow1LoadProfileBGLoadConfigButton:SetEnabled(true)
+		ChampPointRespecWindow1LoadProfileBGDeleteConfigButton:SetEnabled(true)
+	end
 	
-	selected = 1
+	if CPR2.aspectSelected == CPR2.HEALTH_ASPECT then
+		ChampPointRespecWindow1BG:SetEdgeColor(0.894, 0.427 ,0.192, 1.0)
+		ChampPointRespecWindow1WarriorBG:SetHidden(false)
+		ChampPointRespecWindow1MageBG:SetHidden(true)
+		ChampPointRespecWindow1ThiefBG:SetHidden(true)
+		ChampPointRespecWindow1CPDisplayButton1:SetAlpha(1.0)
+		ChampPointRespecWindow1CPDisplayButton2:SetAlpha(0.5)
+		ChampPointRespecWindow1CPDisplayButton3:SetAlpha(0.5)
+	end
+	if CPR2.aspectSelected == CPR2.MAGICKA_ASPECT then
+		ChampPointRespecWindow1BG:SetEdgeColor(0.42, 0.78 ,0.937, 1.0)
+		ChampPointRespecWindow1WarriorBG:SetHidden(true)
+		ChampPointRespecWindow1MageBG:SetHidden(false)
+		ChampPointRespecWindow1ThiefBG:SetHidden(true)
+		ChampPointRespecWindow1CPDisplayButton1:SetAlpha(0.5)
+		ChampPointRespecWindow1CPDisplayButton2:SetAlpha(1.0)
+		ChampPointRespecWindow1CPDisplayButton3:SetAlpha(0.5)
+	end
+	if CPR2.aspectSelected == CPR2.STAMINA_ASPECT then
+		ChampPointRespecWindow1BG:SetEdgeColor(0.647, 0.843 ,0.322, 1.0)
+		ChampPointRespecWindow1WarriorBG:SetHidden(true)
+		ChampPointRespecWindow1MageBG:SetHidden(true)
+		ChampPointRespecWindow1ThiefBG:SetHidden(false)
+		ChampPointRespecWindow1CPDisplayButton1:SetAlpha(0.5)
+		ChampPointRespecWindow1CPDisplayButton2:SetAlpha(0.5)
+		ChampPointRespecWindow1CPDisplayButton3:SetAlpha(1.0)
+	end
 	
-	--ChampPointRespecWindow1:SetMovable(true)
-	--ChampPointRespecWindow1:SetAnchor(sv.ui.point, GuiRoot, sv.ui.relPoint, sv.ui.offsetX, sv.ui.offsetY)
+	-- UPDATE UI CP VALUES --
+	if CPR2.configSelected > 0 then 
+		local hash = CPR2.savedVariables.specs[CPR2.configSelected].hash
+		local counter = 0
 	
+		ChampPointRespecWindow1ThiefBGColumn1Tower1:SetText(GetChampionSkillName(1, 1)..": "..CPR2.GetBase10(string.sub(hash, 1, 2)))
+		ChampPointRespecWindow1ThiefBGColumn1Tower2:SetText(GetChampionSkillName(1, 2)..": "..CPR2.GetBase10(string.sub(hash, 3, 4)))
+		ChampPointRespecWindow1ThiefBGColumn1Tower3:SetText(GetChampionSkillName(1, 3)..": "..CPR2.GetBase10(string.sub(hash, 5, 6)))
+		ChampPointRespecWindow1ThiefBGColumn1Tower4:SetText(GetChampionSkillName(1, 4)..": "..CPR2.GetBase10(string.sub(hash, 7, 8)))
+		
+		ChampPointRespecWindow1WarriorBGColumn3Lord1:SetText(GetChampionSkillName(2, 1)..": "..CPR2.GetBase10(string.sub(hash, 9, 10)))
+		ChampPointRespecWindow1WarriorBGColumn3Lord2:SetText(GetChampionSkillName(2, 2)..": "..CPR2.GetBase10(string.sub(hash, 11, 12)))
+		ChampPointRespecWindow1WarriorBGColumn3Lord3:SetText(GetChampionSkillName(2, 3)..": "..CPR2.GetBase10(string.sub(hash, 13, 14)))
+		ChampPointRespecWindow1WarriorBGColumn3Lord4:SetText(GetChampionSkillName(2, 4)..": "..CPR2.GetBase10(string.sub(hash, 15, 16)))
+		
+		ChampPointRespecWindow1WarriorBGColumn2Lady1:SetText(GetChampionSkillName(3, 1)..": "..CPR2.GetBase10(string.sub(hash, 17, 18)))
+		ChampPointRespecWindow1WarriorBGColumn2Lady2:SetText(GetChampionSkillName(3, 2)..": "..CPR2.GetBase10(string.sub(hash, 19, 20)))
+		ChampPointRespecWindow1WarriorBGColumn2Lady3:SetText(GetChampionSkillName(3, 3)..": "..CPR2.GetBase10(string.sub(hash, 21, 22)))
+		ChampPointRespecWindow1WarriorBGColumn2Lady4:SetText(GetChampionSkillName(3, 4)..": "..CPR2.GetBase10(string.sub(hash, 23, 24)))
+		
+		ChampPointRespecWindow1WarriorBGColumn1Steed1:SetText(GetChampionSkillName(4, 1)..": "..CPR2.GetBase10(string.sub(hash, 25, 26)))
+		ChampPointRespecWindow1WarriorBGColumn1Steed2:SetText(GetChampionSkillName(4, 2)..": "..CPR2.GetBase10(string.sub(hash, 27, 28)))
+		ChampPointRespecWindow1WarriorBGColumn1Steed3:SetText(GetChampionSkillName(4, 3)..": "..CPR2.GetBase10(string.sub(hash, 29, 30)))
+		ChampPointRespecWindow1WarriorBGColumn1Steed4:SetText(GetChampionSkillName(4, 4)..": "..CPR2.GetBase10(string.sub(hash, 31, 32)))
+		
+		ChampPointRespecWindow1MageBGColumn3Ritual1:SetText(GetChampionSkillName(5, 1)..": "..CPR2.GetBase10(string.sub(hash, 33, 34)))
+		ChampPointRespecWindow1MageBGColumn3Ritual2:SetText(GetChampionSkillName(5, 2)..": "..CPR2.GetBase10(string.sub(hash, 35, 36)))
+		ChampPointRespecWindow1MageBGColumn3Ritual3:SetText(GetChampionSkillName(5, 3)..": "..CPR2.GetBase10(string.sub(hash, 37, 38)))
+		ChampPointRespecWindow1MageBGColumn3Ritual4:SetText(GetChampionSkillName(5, 4)..": "..CPR2.GetBase10(string.sub(hash, 39, 40)))
+		
+		ChampPointRespecWindow1MageBGColumn3Ritual1:SetText(GetChampionSkillName(5, 1)..": "..CPR2.GetBase10(string.sub(hash, 33, 34)))
+		ChampPointRespecWindow1MageBGColumn3Ritual2:SetText(GetChampionSkillName(5, 2)..": "..CPR2.GetBase10(string.sub(hash, 35, 36)))
+		ChampPointRespecWindow1MageBGColumn3Ritual3:SetText(GetChampionSkillName(5, 3)..": "..CPR2.GetBase10(string.sub(hash, 37, 38)))
+		ChampPointRespecWindow1MageBGColumn3Ritual4:SetText(GetChampionSkillName(5, 4)..": "..CPR2.GetBase10(string.sub(hash, 39, 40)))
+		
+		ChampPointRespecWindow1MageBGColumn2Atronach1:SetText(GetChampionSkillName(6, 1)..": "..CPR2.GetBase10(string.sub(hash, 41, 42)))
+		ChampPointRespecWindow1MageBGColumn2Atronach2:SetText(GetChampionSkillName(6, 2)..": "..CPR2.GetBase10(string.sub(hash, 43, 44)))
+		ChampPointRespecWindow1MageBGColumn2Atronach3:SetText(GetChampionSkillName(6, 3)..": "..CPR2.GetBase10(string.sub(hash, 45, 46)))
+		ChampPointRespecWindow1MageBGColumn2Atronach4:SetText(GetChampionSkillName(6, 4)..": "..CPR2.GetBase10(string.sub(hash, 47, 48)))
+		
+		ChampPointRespecWindow1MageBGColumn1Apprentice1:SetText(GetChampionSkillName(7, 1)..": "..CPR2.GetBase10(string.sub(hash, 49, 50)))
+		ChampPointRespecWindow1MageBGColumn1Apprentice2:SetText(GetChampionSkillName(7, 2)..": "..CPR2.GetBase10(string.sub(hash, 51, 52)))
+		ChampPointRespecWindow1MageBGColumn1Apprentice3:SetText(GetChampionSkillName(7, 3)..": "..CPR2.GetBase10(string.sub(hash, 53, 54)))
+		ChampPointRespecWindow1MageBGColumn1Apprentice4:SetText(GetChampionSkillName(7, 4)..": "..CPR2.GetBase10(string.sub(hash, 55, 56)))
+		
+		ChampPointRespecWindow1ThiefBGColumn3Shadow1:SetText(GetChampionSkillName(8, 1)..": "..CPR2.GetBase10(string.sub(hash, 57,58)))
+		ChampPointRespecWindow1ThiefBGColumn3Shadow2:SetText(GetChampionSkillName(8, 2)..": "..CPR2.GetBase10(string.sub(hash,59, 60)))
+		ChampPointRespecWindow1ThiefBGColumn3Shadow3:SetText(GetChampionSkillName(8, 3)..": "..CPR2.GetBase10(string.sub(hash, 61, 62)))
+		ChampPointRespecWindow1ThiefBGColumn3Shadow4:SetText(GetChampionSkillName(8, 4)..": "..CPR2.GetBase10(string.sub(hash, 63, 64)))
+		
+		ChampPointRespecWindow1ThiefBGColumn2Lover1:SetText(GetChampionSkillName(9, 1)..": "..CPR2.GetBase10(string.sub(hash, 65,66)))
+		ChampPointRespecWindow1ThiefBGColumn2Lover2:SetText(GetChampionSkillName(9, 2)..": "..CPR2.GetBase10(string.sub(hash,67, 68)))
+		ChampPointRespecWindow1ThiefBGColumn2Lover3:SetText(GetChampionSkillName(9, 3)..": "..CPR2.GetBase10(string.sub(hash, 69, 70)))
+		ChampPointRespecWindow1ThiefBGColumn2Lover4:SetText(GetChampionSkillName(9, 4)..": "..CPR2.GetBase10(string.sub(hash, 71, 72)))
+		
+	end
 	
-	ChampPointRespecWindow1:SetHandler("OnMoveStop", savePositions)
-	
-	
-	ChampPointRespecWindow1CloseButton:SetHandler("OnClicked", function() ChampPointRespecWindow1:SetHidden(true) end)
-	
-	ChampPointRespecWindow1RenameEditBoxBackdropEditBox:SetHandler("OnEnter", function() renameCPConfig(ChampPointRespecWindow1RenameEditBoxBackdropEditBox:GetText()) ChampPointRespecWindow1RenameEditBoxBackdropEditBox:Clear() ChampPointRespecWindow1RenameEditBoxBackdropEditBox:LoseFocus() return end)
-	
-	ChampPointRespecWindow1SaveButton:SetHandler("OnClicked", function() saveCurrentCP(selected) updateUI(selected) end)
-	ChampPointRespecWindow1LoadButton:SetHandler("OnClicked", function() setCPBuild(selected) updateUI(selected) end)
-	ChampPointRespecWindow1LoadButton.data = { tooltipText = "If you are removing ChampionPoints, this will cost 3,000 gold."}
-	ChampPointRespecWindow1LoadButton:SetHandler("OnMouseEnter", ZO_Options_OnMouseEnter)
-	ChampPointRespecWindow1LoadButton:SetHandler("OnMouseExit", ZO_Options_OnMouseExit)
-	
-	-- DROPDOWN --
-	
-	CPR_comboBox = WINDOW_MANAGER:GetControlByName("ChampPointRespecWindow1", "Dropdown")
-	CPR_comboBox.data = { tooltipText = "Select CP Configuration"}
-	
-	CPR_comboBox:SetHandler("OnMouseEnter", ZO_Options_OnMouseEnter)
-	CPR_comboBox:SetHandler("OnMouseExit", ZO_Options_OnMouseExit)
-	
-	m_CPR_comboBox = CPR_comboBox.m_comboBox
-	m_CPR_comboBox:SetSortsItems(false)
-	
-	m_CPR_comboBox:ClearItems()
-	function ItemSelectCallback(CPR_comboBox, itemName, item, selectionChanged)
---		d("item selected")
+end
+
+-- toggles UI window --
+function CPR2.toggleCPRUI() 
+	ChampPointRespecWindow1:ToggleHidden()
+end
+
+function CPR2.savePositions(self)
+	local valid, point, _, relPoint, offsetX, offsetY = self:GetAnchor(0)
+	if valid then
+		CPR2.savedVariables.ui.point = point
+		CPR2.savedVariables.ui.relPoint = relPoint
+		CPR2.savedVariables.ui.offsetX = offsetX
+		CPR2.savedVariables.ui.offsetY = offsetY
+	end
+end
+
+function CPR2.CreateHashFromOldSV(num)
+	local hash = ""
+	for discipline = 1, GetNumChampionDisciplines() do
+		for skill = 1, GetNumChampionDisciplineSkills() - 4 do																								
+			hash = hash..CPR2.GetBase64(CPR2.oldSavedVariables[num][discipline][skill])
+		end
+	end
+	return hash
+end
+
+function CPR2.ConvertOldSavedVariables()
+	d("converting old sv")
+	if CPR2.oldSavedVariables[1] ~= nil then
 		for i = 1, 10 do
-			if itemName == sv[11][i] then
-				selected = i
-				updateUI(selected)
+			local h = CPR2.CreateHashFromOldSV(i)
+			if h ~= "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" then
+				table.insert(CPR2.savedVariables.specs, {name = CPR2.oldSavedVariables[11][i], hash = h})
+				CPR2.PopulateDropdown()
 			end
 		end
 	end
-	
-	
-	m_CPR_comboBox:ClearItems()
-	local tItemData = {
-		[1] = sv[11][1],
-		[2] = sv[11][2],
-		[3] = sv[11][3],
-		[4] = sv[11][4],
-		[5] = sv[11][5],
-		[6] = sv[11][6],
-		[7] = sv[11][7],
-		[8] = sv[11][8],
-		[9] = sv[11][9],
-		[10] = sv[11][10],
-	}
-	
-	for i, name in ipairs(tItemData) do
-		local itemEntry = m_CPR_comboBox:CreateItemEntry(name, ItemSelectCallback)
-		
-		m_CPR_comboBox:AddItem(itemEntry, ZO_COMBOBOX_SURPRESS_UPDATE)
-	end
---	d(itemData)
-	m_CPR_comboBox:UpdateItems()
-	m_CPR_comboBox:SelectFirstItem()
-	
+	CPR2.savedVariables.convertFromOldSavedVariables = false
 end
 
-
-function ChampionPointRespec:Initialize()
-	sv = ZO_SavedVars:New("ChampionPointRespec_sv", 1, nil, ChampionPointRespec.Defaults)
-	ChampionPointRespec:createWindow()
+function CPR2:Initialize()
+	CPR2.savedVariables = ZO_SavedVars:New("CPR2", CPR2.variableVersion, nil, CPR2.Default)
+	CPR2.oldSavedVariables = ZO_SavedVars:New("ChampionPointRespec_sv", CPR2.variableVersion, nil, nil)
+	if CPR2.savedVariables.convertFromOldSavedVariables then
+		CPR2.ConvertOldSavedVariables()
+	end
+	
+	-- INITIALIZE DIALOGUE CONFIRMATION (from ingame/championperks/championperks.lua) --
+	
+	local customControl = ZO_ChampionRespecConfirmationDialog
+	
+	ZO_Dialogs_RegisterCustomDialog("CPR2_CHAMPION_CONFIRM_COST",
+    {
+        gamepadInfo =
+        {
+            dialogType = GAMEPAD_DIALOGS.BASIC,
+        },
+        customControl = customControl,
+        title =
+        {
+            text = SI_CHAMPION_DIALOG_CONFIRM_CHANGES_TITLE,
+        },
+        mainText =
+        {
+            text = zo_strformat(SI_CHAMPION_DIALOG_CONFIRM_POINT_COST),
+        },
+        setup = function(dialog)
+            if SCENE_MANAGER:IsCurrentSceneGamepad() then
+                local gamepadGoldIconMarkup =  ZO_Currency_GetGamepadFormattedCurrencyIcon(CURT_MONEY)
+                gamepadData.data1.value = zo_strformat(SI_CHAMPION_RESPEC_CURRENCY_FORMAT, ZO_CommaDelimitNumber(GetCurrencyAmount(CURT_MONEY, CURRENCY_LOCATION_CHARACTER)), gamepadGoldIconMarkup)
+                gamepadData.data2.value = zo_strformat(SI_CHAMPION_RESPEC_CURRENCY_FORMAT, ZO_CommaDelimitNumber(GetChampionRespecCost()), gamepadGoldIconMarkup)
+                dialog.setupFunc(dialog, gamepadData)
+            else
+                ZO_CurrencyControl_SetSimpleCurrency(customControl:GetNamedChild("BalanceAmount"), CURT_MONEY,  GetCurrencyAmount(CURT_MONEY, CURRENCY_LOCATION_CHARACTER))
+                ZO_CurrencyControl_SetSimpleCurrency(customControl:GetNamedChild("RespecCost"), CURT_MONEY,  GetChampionRespecCost())
+            end
+        end,
+        buttons =
+        {
+            {
+                control = customControl:GetNamedChild("Confirm"),
+                text = SI_DIALOG_CONFIRM,
+                callback = function()
+                                CPR2.LoadCPFromHash(name)
+                            end,
+            },
+            {
+                control = customControl:GetNamedChild("Cancel"),
+                text = SI_DIALOG_CANCEL,
+            }
+        }
+    })
+	
+	-- INITIALIZE CREATE CONFIG DIALOGE --
+	
+	ZO_Dialogs_RegisterCustomDialog("CPR2_SAVE_CONFIG",
+	{
+        gamepadInfo = {
+            dialogType = GAMEPAD_DIALOGS.BASIC,
+        },
+        title = {
+            text = "Create New Configuration",
+        },
+        mainText = {
+            text = "Enter a name: ",
+        },
+		editBox = { defaultText = ""
+			
+		},
+        buttons = {
+            {
+                text = SI_DIALOG_CONFIRM,
+                callback = function(dialog) CPR2.saveCPHash(ZO_Dialogs_GetEditBoxText(dialog))
+                end,
+            },
+            {
+                text = SI_DIALOG_CANCEL,
+                callback = function()
+                end,
+            }
+        }
+    })
+	
+	CPR2.configSelector = WINDOW_MANAGER:GetControlByName("ChampPointRespecWindow1ConfigSelector")
+	
+	CPR2.configSelector.data = { tooltipText = "Select CP Configuration"}
+	
+	CPR2.configSelector:SetHandler("OnMouseEnter", ZO_Options_OnMouseEnter)
+	CPR2.configSelector:SetHandler("OnMouseExit", ZO_Options_OnMouseExit)
+	
+	CPR2.deleteConfigButton = WINDOW_MANAGER:GetControlByName("ChampPointRespecWindow1LoadProfileBGDeleteConfigButton")
+	
+	CPR2.deleteConfigButton.data = { tooltipText = "Deleting a Config will reload ui"}
+	
+	CPR2.deleteConfigButton:SetHandler("OnMouseEnter", ZO_Options_OnMouseEnter)
+	CPR2.deleteConfigButton:SetHandler("OnMouseExit", ZO_Options_OnMouseExit)
+	
+	CPR2.UpdateUI()
+	
+	ChampPointRespecWindow1:SetHandler("OnMoveStop", CPR2.savePositions)
 	ChampPointRespecWindow1:ClearAnchors()
-	ChampPointRespecWindow1:SetAnchor(sv.ui.point, GuiRoot, sv.ui.relPoint, sv.ui.offsetX, sv.ui.offsetY)
+	ChampPointRespecWindow1:SetAnchor(CPR2.savedVariables.ui.point, GuiRoot, CPR2.savedVariables.ui.relPoint, CPR2.savedVariables.ui.offsetX, CPR2.savedVariables.ui.offsetY)
+	
+	ChampPointRespecWindow1CloseButton:SetHandler("OnClicked", function() ChampPointRespecWindow1:SetHidden(true) end)
+	
 	CHAMPION_PERKS_SCENE:RegisterCallback("StateChange", function(oldstate, newState)
 		if(CHAMPION_PERKS_SCENE:IsShowing()) then
 			ChampPointRespecWindow1:SetHidden(false)
@@ -410,21 +416,18 @@ function ChampionPointRespec:Initialize()
 			ChampPointRespecWindow1:SetHidden(true)
 		end
 	end)
-	--SLASH_COMMANDS["/showcurrentcp"] = slashCommandTest
-	--SLASH_COMMANDS["/savecurrentcpconfig"] = saveCurrentCP
-	--SLASH_COMMANDS["/clearcpconfig"] = clearCP
-	--SLASH_COMMANDS["/showcpconfig"] = showCPBuild
-	--SLASH_COMMANDS["/resetcp"] = resetCP
-	--SLASH_COMMANDS["/setcpconfigascurrent"] = setCPBuild
-	--SLASH_COMMANDS["/championpointrespec"] = UI
-	--SLASH_COMMANDS["/cpconfigrename"] = cprename
 	
+	--SLASH_COMMANDS["/cphash"] = CPR2.createCPHash
+	--SLASH_COMMANDS["/savecphash"] = CPR2.saveCPHash
+	--SLASH_COMMANDS["/deletecphash"] = CPR2.DeleteCPHash
+	--SLASH_COMMANDS["/resetcp"] = CPR2.resetCP
+	--SLASH_COMMANDS["/setcpfromhash"] = CPR2.LoadCPFromHash
+	--SLASH_COMMANDS["/testcpfunction"] = TestFunction
 end
 
-local function OnAddonLoaded(event, addonName)
-	if addonName ~= ChampionPointRespec.name then return end
-	ChampionPointRespec:Initialize()
+function CPR2.OnAddOnLoaded(event, addonName)
+	if addonName ~= CPR2.name then return end
+	CPR2:Initialize()
 end
 
-EVENT_MANAGER:RegisterForEvent(ChampionPointRespec.name, EVENT_ADD_ON_LOADED, OnAddonLoaded)
-EVENT_MANAGER:RegisterForEvent(ZO_CHAMPION)
+EVENT_MANAGER:RegisterForEvent(CPR2.name, EVENT_ADD_ON_LOADED, CPR2.OnAddOnLoaded)

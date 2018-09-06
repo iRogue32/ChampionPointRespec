@@ -1,251 +1,343 @@
 <GuiXml>
   <Controls>
     <TopLevelControl name="ChampPointRespecWindow1" mouseEnabled="true" movable="true" clampedToScreen="true" hidden="true" >
-      <Dimensions x="675" y="600" />
-      <Anchor point="CENTER" />
- 
-      <Controls>
-	  
-       <Backdrop name="$(parent)BG" inherits="ZO_DefaultBackdrop" />
+      <Dimensions x="675" y="500" />
+	  <Anchor point="TOPRIGHT" relativeTo="GuiRoot" relativePoint="TOPRIGHT" />
 	
-		<Button name="$(parent)CloseButton" inherits="ZO_ButtonBehaviorClickSound" >
-			<Dimensions x="25" y="25" />
-			<Textures normal="ESOUI/art/buttons/decline_up.dds"
-					  mouseOver="ESOUI/art/buttons/decline_over.dds" />
-			<Anchor point="TOPRIGHT" relativeTo="$(parent)" relativePoint="TOPRIGHT" />
-		</Button>
+	  <Controls>
 		
-		<Label name="$(parent)Title" font="ZoFontWinH3" text="|cFFBA59Champion Point Configuration: |r" >
-			<Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetX="5" offsetY="10" />
+		<Backdrop name="$(parent)BG" edgeColor="FFFFFF" centerColor="000000" >
+		  <Edge edgeSize="1" />
+		  <AnchorFill />
+		</Backdrop>
+	
+		<Label name="$(parent)title" font="ZoFontHeader" color="FFFFFF" text="Champion Point Respec" >
+		  <Anchor point="TOP" relativeTo="$(parent)" relativePoint="TOP" offsetY="5"/>
 		</Label>
 		
-		<Control name="$(parent)Dropdown" inherits="ZO_ComboBox" >
-			<Dimensions x="200" y="30" />
-			<Anchor point="TOPLEFT" relativeTo="$(parent)Title" relativePoint="TOPRIGHT" offsetX="10" />
-		</Control>
+		<Button name="$(parent)CloseButton" clickSound="Click">
+          <Anchor point="TOPRIGHT" relativeTo="$(parent)" relativePoint="TOPRIGHT" offsetX="-5" offsetY="5"/>
+          <Dimensions y="25" x="25"/>
+          <Textures normal="esoui/art/buttons/decline_up.dds" pressed="esoui/art/buttons/decline_down.dds" mouseOver="esoui/art/buttons/decline_over.dds"/>
+        </Button>
 		
-		<Backdrop name="$(parent)RenameEditBoxBackdrop" inherits="ZO_SingleLineEditBackdrop_Keyboard" >
-			<Dimensions x="200" />
-			<Anchor point="TOPLEFT" relativeTo="$(parent)Title" relativePoint="BOTTOMRIGHT" offsetX="10" offsetY="10" />
+		<Backdrop name="$(parent)LoadProfileBG" centerColor="000000" edgeColor="FFFFFF" >
+		  <Dimensions x="649" y="200" />
+		  <Edge edgeSize="1" />
+		  <Anchor point="TOP" relativeTo="$(parent)title" relativePoint="BOTTOM" />
+		  <Controls>
+			<Button name="$(parent)LoadConfigButton" horizontalAlignment="1" verticalAlignment="1" font="ZoFontWinH4" clickSound="Click" text="Load Selected Configuration" >
+				<FontColors normalColor="FFFFFF" mouseOverColor="E8DFAF" />
+				<Dimensions x="250" y="35" />
+				<Anchor point="RIGHT" relativeTo="$(parent)" relativePoint="RIGHT" offsetX="-20" />
+				<OnClicked> ChampionPointRespecV2.DisplayLoadCPFromHashDialog() </OnClicked>
+				<Controls>
+					<Backdrop name="$(parent)BG" centerColor="101010" edgeColor="202020">
+						<AnchorFill/>
+						<Edge edgeSize="1"/>
+					</Backdrop>
+				</Controls>
+			</Button>
+			<Button name="$(parent)SaveConfigButton" horizontalAlignment="1" verticalAlignment="1" font="ZoFontWinH4" clickSound="Click" text="Save Current CP Configuration" >
+				<FontColors normalColor="FFFFFF" mouseOverColor="E8DFAF" />
+				<Dimensions x="250" y="35" />
+				<Anchor point="BOTTOM" relativeTo="$(parent)LoadConfigButton" relativePoint="TOP" offsetY="-15" />
+				<OnClicked> ChampionPointRespecV2.DisplayCreateNewConfigDialog() </OnClicked>
+				<Controls>
+					<Backdrop name="$(parent)BG" centerColor="101010" edgeColor="202020">
+						<AnchorFill/>
+						<Edge edgeSize="1"/>
+					</Backdrop>
+				</Controls>
+			</Button>
+			<Button name="$(parent)DeleteConfigButton" horizontalAlignment="1" verticalAlignment="1" font="ZoFontWinH4" clickSound="Click" text="Delete Selected Configuration" >
+				<FontColors normalColor="FFFFFF" mouseOverColor="E8DFAF" />
+				<Dimensions x="250" y="35" />
+				<Anchor point="TOP" relativeTo="$(parent)LoadConfigButton" relativePoint="BOTTOM" offsetY="15" />
+				<OnClicked> ChampionPointRespecV2.DeleteCPHash() </OnClicked>
+				<Controls>
+					<Backdrop name="$(parent)BG" centerColor="101010" edgeColor="202020">
+						<AnchorFill/>
+						<Edge edgeSize="1"/>
+					</Backdrop>
+				</Controls>
+			</Button>
+		  </Controls>
+		</Backdrop>
 	
-		<Controls>
-			
-			<EditBox name="$(parent)EditBox" inherits="ZO_DefaultEditForBackdrop" >
-			</EditBox>
-			
-		</Controls>
 		
+		
+		
+		<Button name="$(parent)ConfigSelector" horizontalAlignment="1" verticalAlignment="1" font="ZoFontWinH4" clickSound="Click" text="Select CP Configuration" >
+          <FontColors normalColor="FFFFFF" mouseOverColor="E8DFAF"/>
+          <Anchor point="LEFT" relativePoint="LEFT" relativeTo="$(parent)LoadProfileBG" offsetY="0" offsetX="20"/>
+          <Dimensions x="250" y="35"/>
+          <Controls>
+            <Backdrop name="$(parent)BG" centerColor="101010" edgeColor="202020">
+              <AnchorFill/>
+              <Edge edgeSize="1"/>
+            </Backdrop>
+          </Controls>
+          <OnClicked> ChampionPointRespecV2.ToggleDropdown() </OnClicked>
+        </Button>
+		
+		<Backdrop name="$(parent)ConfigSelectorPanel" tier="1" centerColor="080808" edgeColor="202020" inherits="ZO_ScrollContainerBase" hidden="true"  >
+          <Anchor point="TOP" relativePoint="BOTTOM" relativeTo="$(parent)ConfigSelector" offsetX="0" offsetY="0"/>
+          <Dimensions x="250" y="200"/>
+          <Edge edgeSize="1"/>
+          <OnInitialized>ZO_Scroll_Initialize(self)</OnInitialized>
+          <Controls>
+            <Control name="$(parent)ScrollChild" >
+              <OnInitialized>self:SetParent(self:GetParent():GetNamedChild("Scroll"));self:SetAnchor(3,nil,3,0,0)</OnInitialized>
+            </Control>
+          </Controls>
+        </Backdrop>
+		
+		
+	
+		<Backdrop name="$(parent)CPDisplay" centerColor="000000" edgeColor="FFFFFF" >
+		  <Dimensions x="649" y="240" />
+		  <Edge edgeSize="1" />
+		  <Anchor point="TOP" relativeTo="$(parent)LoadProfileBG" relativePoint="BOTTOM" offsetY="15" />
+		  <Controls>
+			
+		  </Controls>
 		</Backdrop>
 		
-		<Label name="$(parent)EditBoxLabel" text="Set Custom Name: " font="ZoFontWinH3" >
-			<Anchor point="TOPRIGHT" relativeTo="$(parent)Title" relativePoint="BOTTOMRIGHT" offsetY="10" />
-		</Label>
-		
-		<Control name="$(parent)TopDivider" inherits="ZO_DynamicHorizontalDivider" >
-			<Dimensions x="675" />
-			<Anchor point="TOP" relativeTo="$(parent)" offsetY="85" />
-		</Control>
-		
-		<Label name="$(parent)Tower" text="The Tower" font="ZoFontWinH3" horizontalAlignment="LEFT" >
-			<Anchor point="TOPLEFT" relativeTo="$(parent)TopDivider" relativePoint="BOTTOMLEFT" offsetX="15" offsetY="10" />
-		</Label>
-		
-		<Label name="$(parent)Tower_1" text="|c41873fBashing Focus: 0|r" font="ZoFontWinH3" horizontalAlignment="LEFT" >
-			<Anchor point="TOPLEFT" relativeTo="$(parent)Tower" relativePoint="BOTTOMLEFT" />
-		</Label>
-		
-		<Label name="$(parent)Tower_2" text="|c41873fSprinter: 0|r" font="ZoFontWinH3" horizontalAlignment="LEFT" >
-			<Anchor point="TOPLEFT" relativeTo="$(parent)Tower_1" relativePoint="BOTTOMLEFT" />
-		</Label>
-		
-		<Label name="$(parent)Tower_3" text="|c41873fSiphoner: 0|r" font="ZoFontWinH3" horizontalAlignment="LEFT" >
-			<Anchor point="TOPLEFT" relativeTo="$(parent)Tower_2" relativePoint="BOTTOMLEFT" />
-		</Label>
-		
-		<Label name="$(parent)Tower_4" text="|c41873fWarlord: 0|r" font="ZoFontWinH3" horizontalAlignment="LEFT" >
-			<Anchor point="TOPLEFT" relativeTo="$(parent)Tower_3" relativePoint="BOTTOMLEFT" />
-		</Label>
-		
-		<Label name="$(parent)Steed" text="The Steed" font="ZoFontWinH3" horizontalAlignment="LEFT" >
-			<Anchor point="TOPLEFT" relativeTo="$(parent)Tower_4" relativePoint="BOTTOMLEFT" offsetY="10" />
-		</Label>
-		
-		<Label name="$(parent)Steed_1" text="|cd14200Med. Armor Focus: 0|r" font="ZoFontWinH3" horizontalAlignment="LEFT" >
-			<Anchor point="TOPLEFT" relativeTo="$(parent)Steed" relativePoint="BOTTOMLEFT" />
-		</Label>
-		
-		<Label name="$(parent)Steed_2" text="|cd14200Ironclad: 0|r" font="ZoFontWinH3" horizontalAlignment="LEFT" >
-			<Anchor point="TOPLEFT" relativeTo="$(parent)Steed_1" relativePoint="BOTTOMLEFT" />
-		</Label>
-		
-		<Label name="$(parent)Steed_3" text="|cd14200Spell Shield: 0|r" font="ZoFontWinH3" horizontalAlignment="LEFT" >
-			<Anchor point="TOPLEFT" relativeTo="$(parent)Steed_2" relativePoint="BOTTOMLEFT" />
-		</Label>
-		
-		<Label name="$(parent)Steed_4" text="|cd14200Resistant: 0|r" font="ZoFontWinH3" horizontalAlignment="LEFT" >
-			<Anchor point="TOPLEFT" relativeTo="$(parent)Steed_3" relativePoint="BOTTOMLEFT" />
-		</Label>
-		
-		<Label name="$(parent)Apprentice" text="The Apprentice" font="ZoFontWinH3" horizontalAlignment="LEFT" >
-			<Anchor point="TOPLEFT" relativeTo="$(parent)Steed_4" relativePoint="BOTTOMLEFT" offsetY="10" />
-		</Label>
-	
-		<Label name="$(parent)Apprentice_1" text="|c008ed1Elemental Expert: 0|r" font="ZoFontWinH3" horizontalAlignment="LEFT" >
-			<Anchor point="TOPLEFT" relativeTo="$(parent)Apprentice" relativePoint="BOTTOMLEFT" />
-		</Label>
-		
-		<Label name="$(parent)Apprentice_2" text="|c008ed1Spell Erosion: 0|r" font="ZoFontWinH3" horizontalAlignment="LEFT" >
-			<Anchor point="TOPLEFT" relativeTo="$(parent)Apprentice_1" relativePoint="BOTTOMLEFT" />
-		</Label>
-		
-		<Label name="$(parent)Apprentice_3" text="|c008ed1Elfborn: 0|r" font="ZoFontWinH3" horizontalAlignment="LEFT" >
-			<Anchor point="TOPLEFT" relativeTo="$(parent)Apprentice_2" relativePoint="BOTTOMLEFT" />
-		</Label>
-		
-		<Label name="$(parent)Apprentice_4" text="|c008ed1Blessed: 0|r" font="ZoFontWinH3" horizontalAlignment="LEFT" >
-			<Anchor point="TOPLEFT" relativeTo="$(parent)Apprentice_3" relativePoint="BOTTOMLEFT" />
-		</Label>
-		
-		<Label name="$(parent)Shadow" text="The Shadow" font="ZoFontWinH3" horizontalAlignment="LEFT" >
-			<Anchor point="TOPLEFT" relativeTo="$(parent)Tower" relativePoint="TOPRIGHT" offsetX="130" />
-		</Label>
-		
-		<Label name="$(parent)Shadow_1" text="|c41873fBefoul: 0|r" font="ZoFontWinH3" horizontalAlignment="LEFT" >
-			<Anchor point="TOPLEFT" relativeTo="$(parent)Shadow" relativePoint="BOTTOMLEFT" />
-		</Label>
-		
-		<Label name="$(parent)Shadow_2" text="|c41873fShade: 0|r" font="ZoFontWinH3" horizontalAlignment="LEFT" >
-			<Anchor point="TOPLEFT" relativeTo="$(parent)Shadow_1" relativePoint="BOTTOMLEFT" />
-		</Label>
-		
-		<Label name="$(parent)Shadow_3" text="|c41873fShadow Ward: 0|r" font="ZoFontWinH3" horizontalAlignment="LEFT" >
-			<Anchor point="TOPLEFT" relativeTo="$(parent)Shadow_2" relativePoint="BOTTOMLEFT" />
-		</Label>
-		
-		<Label name="$(parent)Shadow_4" text="|c41873fTumbling: 0|r" font="ZoFontWinH3" horizontalAlignment="LEFT" >
-			<Anchor point="TOPLEFT" relativeTo="$(parent)Shadow_3" relativePoint="BOTTOMLEFT" />
-		</Label>
-		
-		<Label name="$(parent)Lady" text="The Lady" font="ZoFontWinH3" horizontalAlignment="LEFT" >
-			<Anchor point="TOPLEFT" relativeTo="$(parent)Shadow_4" relativePoint="BOTTOMLEFT" offsetY="10" />
-		</Label>
-		
-		<Label name="$(parent)Lady_1" text="|cd14200Light Armor Focus: 0|r" font="ZoFontWinH3" horizontalAlignment="LEFT" >
-			<Anchor point="TOPLEFT" relativeTo="$(parent)Lady" relativePoint="BOTTOMLEFT" />
-		</Label>
-		
-		<Label name="$(parent)Lady_2" text="|cd14200Thick Skinned: 0|r" font="ZoFontWinH3" horizontalAlignment="LEFT" >
-			<Anchor point="TOPLEFT" relativeTo="$(parent)Lady_1" relativePoint="BOTTOMLEFT" />
-		</Label>
-		
-		<Label name="$(parent)Lady_3" text="|cd14200Hardy: 0|r" font="ZoFontWinH3" horizontalAlignment="LEFT" >
-			<Anchor point="TOPLEFT" relativeTo="$(parent)Lady_2" relativePoint="BOTTOMLEFT" />
-		</Label>
-		
-		<Label name="$(parent)Lady_4" text="|cd14200Elemental Defender: 0|r" font="ZoFontWinH3" horizontalAlignment="LEFT" >
-			<Anchor point="TOPLEFT" relativeTo="$(parent)Lady_3" relativePoint="BOTTOMLEFT" />
-		</Label>
-		
-		<Label name="$(parent)Atronach" text="The Atronach" font="ZoFontWinH3" horizontalAlignment="LEFT" >
-			<Anchor point="TOPLEFT" relativeTo="$(parent)Lady_4" relativePoint="BOTTOMLEFT" offsetY="10" />
-		</Label>
-		
-		<Label name="$(parent)Atronach_1" text="|c008ed1Phys. Weapon Expert: 0|r" font="ZoFontWinH3" horizontalAlignment="LEFT" >
-			<Anchor point="TOPLEFT" relativeTo="$(parent)Atronach" relativePoint="BOTTOMLEFT" />
-		</Label>
-	
-		<Label name="$(parent)Atronach_2" text="|c008ed1Shattering Blows: 0|r" font="ZoFontWinH3" horizontalAlignment="LEFT" >
-			<Anchor point="TOPLEFT" relativeTo="$(parent)Atronach_1" relativePoint="BOTTOMLEFT" />
-		</Label>
-		
-		<Label name="$(parent)Atronach_3" text="|c008ed1Master-at-Arms: 0|r" font="ZoFontWinH3" horizontalAlignment="LEFT" >
-			<Anchor point="TOPLEFT" relativeTo="$(parent)Atronach_2" relativePoint="BOTTOMLEFT" />
-		</Label>
-		
-		<Label name="$(parent)Atronach_4" text="|c008ed1Staff Expert: 0|r" font="ZoFontWinH3" horizontalAlignment="LEFT" >
-			<Anchor point="TOPLEFT" relativeTo="$(parent)Atronach_3" relativePoint="BOTTOMLEFT" />
-		</Label>
-		
-		<Label name="$(parent)Lover" text="The Lover" font="ZoFontWinH3" horizontalAlignment="LEFT" >
-			<Anchor point="TOPLEFT" relativeTo="$(parent)Shadow" relativePoint="TOPRIGHT" offsetX="140" />
-		</Label>
-		
-		<Label name="$(parent)Lover_1" text="|c41873fMooncalf: 0|r" font="ZoFontWinH3" horizontalAlignment="LEFT" >
-			<Anchor point="TOPLEFT" relativeTo="$(parent)Lover" relativePoint="BOTTOMLEFT" />
-		</Label>
-		
-		<Label name="$(parent)Lover_2" text="|c41873fArcanist: 0|r" font="ZoFontWinH3" horizontalAlignment="LEFT" >
-			<Anchor point="TOPLEFT" relativeTo="$(parent)Lover_1" relativePoint="BOTTOMLEFT" />
-		</Label>
-		
-		<Label name="$(parent)Lover_3" text="|c41873fHealthy: 0|r" font="ZoFontWinH3" horizontalAlignment="LEFT" >
-			<Anchor point="TOPLEFT" relativeTo="$(parent)Lover_2" relativePoint="BOTTOMLEFT" />
-		</Label>
-		
-		<Label name="$(parent)Lover_4" text="|c41873fTenacity: 0|r" font="ZoFontWinH3" horizontalAlignment="LEFT" >
-			<Anchor point="TOPLEFT" relativeTo="$(parent)Lover_3" relativePoint="BOTTOMLEFT" />
-		</Label>
-		
-		<Label name="$(parent)Lord" text="The Lord" font="ZoFontWinH3" horizontalAlignment="LEFT" >
-			<Anchor point="TOPLEFT" relativeTo="$(parent)Lover_4" relativePoint="BOTTOMLEFT" offsetY="10" />
-		</Label>
-		
-		<Label name="$(parent)Lord_1" text="|cd14200Heavy Armor Focus: 0|r" font="ZoFontWinH3" horizontalAlignment="LEFT" >
-			<Anchor point="TOPLEFT" relativeTo="$(parent)Lord" relativePoint="BOTTOMLEFT" />
-		</Label>
-		
-		<Label name="$(parent)Lord_2" text="|cd14200Bastion: 0|r" font="ZoFontWinH3" horizontalAlignment="LEFT" >
-			<Anchor point="TOPLEFT" relativeTo="$(parent)Lord_1" relativePoint="BOTTOMLEFT" />
-		</Label>
-		
-		<Label name="$(parent)Lord_3" text="|cd14200Expert Defender: 0|r" font="ZoFontWinH3" horizontalAlignment="LEFT" >
-			<Anchor point="TOPLEFT" relativeTo="$(parent)Lord_2" relativePoint="BOTTOMLEFT" />
-		</Label>
-		
-		<Label name="$(parent)Lord_4" text="|cd14200Quick Recovery: 0|r" font="ZoFontWinH3" horizontalAlignment="LEFT" >
-			<Anchor point="TOPLEFT" relativeTo="$(parent)Lord_3" relativePoint="BOTTOMLEFT" />
-		</Label>
-		
-		<Label name="$(parent)Ritual" text="The Ritual" font="ZoFontWinH3" horizontalAlignment="LEFT" >
-			<Anchor point="TOPLEFT" relativeTo="$(parent)Lord_4" relativePoint="BOTTOMLEFT" offsetY="10" />
-		</Label>
-	
-		<Label name="$(parent)Ritual_1" text="|c008ed1Thaumaturge: 0|r" font="ZoFontWinH3" horizontalAlignment="LEFT" >
-			<Anchor point="TOPLEFT" relativeTo="$(parent)Ritual" relativePoint="BOTTOMLEFT" />
-		</Label>
-		
-		<Label name="$(parent)Ritual_2" text="|c008ed1Precise Strikes: 0|r" font="ZoFontWinH3" horizontalAlignment="LEFT" >
-			<Anchor point="TOPLEFT" relativeTo="$(parent)Ritual_1" relativePoint="BOTTOMLEFT" />
-		</Label>
-		
-		<Label name="$(parent)Ritual_3" text="|c008ed1Piercing: 0|r" font="ZoFontWinH3" horizontalAlignment="LEFT" >
-			<Anchor point="TOPLEFT" relativeTo="$(parent)Ritual_2" relativePoint="BOTTOMLEFT" />
-		</Label>
-		
-		<Label name="$(parent)Ritual_4" text="|c008ed1Mighty: 0|r" font="ZoFontWinH3" horizontalAlignment="LEFT" >
-			<Anchor point="TOPLEFT" relativeTo="$(parent)Ritual_3" relativePoint="BOTTOMLEFT" />
-		</Label>
-		
-		<Control name="$(parent)BottomDivider" inherits="ZO_DynamicHorizontalDivider" >
-			<Dimensions x="675" />
-			<Anchor point="TOP" relativeTo="$(parent)" offsetY="507" />
-		</Control>
-		
-		<Button name="$(parent)SaveButton" font="ZoFontGame" >
-			<Dimensions x="251" y="40" />
-			<Textures normal="esoui/art/buttons/button_xlarge_mouseup.dds"
-					  mouseOver="esoui/art/buttons/button_xlarge_mouseover.dds" />
-			<Anchor point="TOP" relativeTo="$(parent)" relativePoint="TOP" offsetX="-180"offsetY="544" />
+		<Button name="$(parent)CPDisplayButton1" >
+		  <Dimensions x="216" y="85" />
+		  <Anchor point="TOPLEFT" relativeTo="$(parent)CPDisplay" relativePoint="TOPLEFT" />
+		  <OnClicked> ChampionPointRespecV2.UpdateAspectSelected(1) </OnClicked>
+		  <Controls>
+			<Backdrop name="$(parent)BG" centerColor="000000" edgeColor="FFFFFF" >
+				<AnchorFill/>
+				<Edge edgeSize="1" />
+			</Backdrop>
+			<Texture name="$(parent)HealthImage" textureFile="/esoui/art/tutorial/champion_points_health_icon.dds" hidden="false" >
+				<Dimensions x="65" y="65" />
+				<Anchor point="CENTER" relativeTo="$(parent)" relativePoint="CENTER" />
+			</Texture>
+		  </Controls>
 		</Button>
 		
-		<Button name="$(parent)LoadButton" font="ZoFontGame" >
-			<Dimensions x="251" y="40" />
-			<Textures normal="esoui/art/buttons/button_xlarge_mouseup.dds"
-					  mouseOver="esoui/art/buttons/button_xlarge_mouseover.dds" />
-			<Anchor point="TOP" relativeTo="$(parent)" relativePoint="TOP" offsetX="180"offsetY="544" />
+		<Button name="$(parent)CPDisplayButton2" >
+		  <Dimensions x="217" y="85" />
+		  <Anchor point="TOP" relativeTo="$(parent)CPDisplay" relativePoint="TOP" />
+		  <OnClicked> ChampionPointRespecV2.UpdateAspectSelected(2) </OnClicked>
+		  <Controls>
+			<Backdrop name="$(parent)BG" centerColor="000000" edgeColor="FFFFFF" >
+				<AnchorFill/>
+				<Edge edgeSize="1" />
+			</Backdrop>
+			<Texture name="$(parent)MagickaImage" textureFile="/esoui/art/tutorial/champion_points_magicka_icon.dds" hidden="false" >
+				<Dimensions x="65" y="65" />
+				<Anchor point="CENTER" relativeTo="$(parent)" relativePoint="CENTER" />
+			</Texture>
+		  </Controls>
 		</Button>
-	
+		
+		<Button name="$(parent)CPDisplayButton3" >
+		  <Dimensions x="216" y="85" />
+		  <Anchor point="TOPRIGHT" relativeTo="$(parent)CPDisplay" relativePoint="TOPRIGHT" />
+		  <OnClicked> ChampionPointRespecV2.UpdateAspectSelected(3) </OnClicked>
+		  <Controls>
+			<Backdrop name="$(parent)BG" centerColor="000000" edgeColor="FFFFFF" >
+				<AnchorFill/>
+				<Edge edgeSize="1" />
+			</Backdrop>
+			<Texture name="$(parent)StaminaImage" textureFile="/esoui/art/tutorial/champion_points_stamina_icon.dds" hidden="false" >
+				<Dimensions x="65" y="65" />
+				<Anchor point="CENTER" relativeTo="$(parent)" relativePoint="CENTER" />
+			</Texture>
+		  </Controls>
+		</Button>
+		
+		<Backdrop name="$(parent)WarriorBG" centerColor="000000" edgeColor="000000" >
+			<Dimensions x="647" y = "154" />
+			<Anchor point = "BOTTOMLEFT" relativeTo="$(parent)CPDisplay" relativePoint="BOTTOMLEFT" offsetX="1" offsetY="-1" />
+			<Controls>
+				<Backdrop name="$(parent)Column1" centerColor="000000" edgeColor="000000" >
+					<Dimensions x="215" y = "154" />
+					<Anchor point = "BOTTOMLEFT" relativeTo="$(parent)" relativePoint="BOTTOMLEFT" />
+					<Controls>
+						<Label name="$(parent)Steed1" font="ZoFontWinH3" color="E46D31" text="Med. Armor Focus: " >
+							<Anchor point="TOP" relativeTo="$(parent)" relativePoint="TOP" offsetY="10" />
+						</Label>
+						<Label name="$(parent)Steed2" font="ZoFontWinH3" color="E46D31" text="Ironclad: " >
+							<Anchor point="TOP" relativeTo="$(parent)Steed1" relativePoint="BOTTOM" offsetY="10" />
+						</Label>
+						<Label name="$(parent)Steed3" font="ZoFontWinH3" color="E46D31" text="Spell Shield: " >
+							<Anchor point="TOP" relativeTo="$(parent)Steed2" relativePoint="BOTTOM" offsetY="10" />
+						</Label>
+						<Label name="$(parent)Steed4" font="ZoFontWinH3" color="E46D31" text="Resistant: " >
+							<Anchor point="TOP" relativeTo="$(parent)Steed3" relativePoint="BOTTOM" offsetY="10" />
+						</Label>
+					</Controls>
+				</Backdrop>
+				<Backdrop name="$(parent)Column2" centerColor="000000" edgeColor="000000" >
+					<Dimensions x="217" y = "154" />
+					<Anchor point = "BOTTOM" relativeTo="$(parent)" relativePoint="BOTTOM" />
+					<Controls>
+						<Label name="$(parent)Lady1" font="ZoFontWinH3" color="E46D31" text="Light Armor Focus: " >
+							<Anchor point="TOP" relativeTo="$(parent)" relativePoint="TOP" offsetY="10" />
+						</Label>
+						<Label name="$(parent)Lady2" font="ZoFontWinH3" color="E46D31" text="Thick Skinned: " >
+							<Anchor point="TOP" relativeTo="$(parent)Lady1" relativePoint="BOTTOM" offsetY="10" />
+						</Label>
+						<Label name="$(parent)Lady3" font="ZoFontWinH3" color="E46D31" text="Hardy: " >
+							<Anchor point="TOP" relativeTo="$(parent)Lady2" relativePoint="BOTTOM" offsetY="10" />
+						</Label>
+						<Label name="$(parent)Lady4" font="ZoFontWinH3" color="E46D31" text="Elemental Defender: " >
+							<Anchor point="TOP" relativeTo="$(parent)Lady3" relativePoint="BOTTOM" offsetY="10" />
+						</Label>
+					</Controls>
+				</Backdrop>
+				<Backdrop name="$(parent)Column3" centerColor="000000" edgeColor="000000" >
+					<Dimensions x="215" y = "154" />
+					<Anchor point = "BOTTOMRIGHT" relativeTo="$(parent)" relativePoint="BOTTOMRIGHT" />
+					<Controls>
+						<Label name="$(parent)Lord1" font="ZoFontWinH3" color="E46D31" text="Heavy Armor Focus: " >
+							<Anchor point="TOP" relativeTo="$(parent)" relativePoint="TOP" offsetY="10" />
+						</Label>
+						<Label name="$(parent)Lord2" font="ZoFontWinH3" color="E46D31" text="Bastion: " >
+							<Anchor point="TOP" relativeTo="$(parent)Lord1" relativePoint="BOTTOM" offsetY="10" />
+						</Label>
+						<Label name="$(parent)Lord3" font="ZoFontWinH3" color="E46D31" text="Expert Defender: " >
+							<Anchor point="TOP" relativeTo="$(parent)Lord2" relativePoint="BOTTOM" offsetY="10" />
+						</Label>
+						<Label name="$(parent)Lord4" font="ZoFontWinH3" color="E46D31" text="Quick Recovery: " >
+							<Anchor point="TOP" relativeTo="$(parent)Lord3" relativePoint="BOTTOM" offsetY="10" />
+						</Label>
+					</Controls>
+				</Backdrop>
+			</Controls>
+		</Backdrop>
+		
+		<Backdrop name="$(parent)MageBG" centerColor="000000" edgeColor="000000" >
+			<Dimensions x="647" y = "154" />
+			<Anchor point = "BOTTOMLEFT" relativeTo="$(parent)CPDisplay" relativePoint="BOTTOMLEFT" offsetX="1" offsetY="-1" />
+			<Controls>
+				<Backdrop name="$(parent)Column1" centerColor="000000" edgeColor="000000" >
+					<Dimensions x="215" y = "154" />
+					<Anchor point = "BOTTOMLEFT" relativeTo="$(parent)" relativePoint="BOTTOMLEFT" />
+					<Controls>
+						<Label name="$(parent)Apprentice1" font="ZoFontWinH3" color="6BC7Ef" text="Elemental Expert: " >
+							<Anchor point="TOP" relativeTo="$(parent)" relativePoint="TOP" offsetY="10" />
+						</Label>
+						<Label name="$(parent)Apprentice2" font="ZoFontWinH3" color="6BC7Ef" text="Spell Erosion: " >
+							<Anchor point="TOP" relativeTo="$(parent)Apprentice1" relativePoint="BOTTOM" offsetY="10" />
+						</Label>
+						<Label name="$(parent)Apprentice3" font="ZoFontWinH3" color="6BC7Ef" text="Elfborn: " >
+							<Anchor point="TOP" relativeTo="$(parent)Apprentice2" relativePoint="BOTTOM" offsetY="10" />
+						</Label>
+						<Label name="$(parent)Apprentice4" font="ZoFontWinH3" color="6BC7Ef" text="Blessed: " >
+							<Anchor point="TOP" relativeTo="$(parent)Apprentice3" relativePoint="BOTTOM" offsetY="10" />
+						</Label>
+					</Controls>
+				</Backdrop>
+				<Backdrop name="$(parent)Column2" centerColor="000000" edgeColor="000000" >
+					<Dimensions x="217" y = "154" />
+					<Anchor point = "BOTTOM" relativeTo="$(parent)" relativePoint="BOTTOM" />
+					<Controls>
+						<Label name="$(parent)Atronach1" font="ZoFontWinH3" color="6BC7Ef" text="Phys. Weapon Expert: " >
+							<Anchor point="TOP" relativeTo="$(parent)" relativePoint="TOP" offsetY="10" />
+						</Label>
+						<Label name="$(parent)Atronach2" font="ZoFontWinH3" color="6BC7Ef" text="Shattering Blows: " >
+							<Anchor point="TOP" relativeTo="$(parent)Atronach1" relativePoint="BOTTOM" offsetY="10" />
+						</Label>
+						<Label name="$(parent)Atronach3" font="ZoFontWinH3" color="6BC7Ef" text="Master-at-Arms: " >
+							<Anchor point="TOP" relativeTo="$(parent)Atronach2" relativePoint="BOTTOM" offsetY="10" />
+						</Label>
+						<Label name="$(parent)Atronach4" font="ZoFontWinH3" color="6BC7Ef" text="Staff Expert: " >
+							<Anchor point="TOP" relativeTo="$(parent)Atronach3" relativePoint="BOTTOM" offsetY="10" />
+						</Label>
+					</Controls>
+				</Backdrop>
+				<Backdrop name="$(parent)Column3" centerColor="000000" edgeColor="000000" >
+					<Dimensions x="215" y = "154" />
+					<Anchor point = "BOTTOMRIGHT" relativeTo="$(parent)" relativePoint="BOTTOMRIGHT" />
+					<Controls>
+						<Label name="$(parent)Ritual1" font="ZoFontWinH3" color="6BC7Ef" text="Thaumaturge: " >
+							<Anchor point="TOP" relativeTo="$(parent)" relativePoint="TOP" offsetY="10" />
+						</Label>
+						<Label name="$(parent)Ritual2" font="ZoFontWinH3" color="6BC7Ef" text="Precise Strikes: " >
+							<Anchor point="TOP" relativeTo="$(parent)Ritual1" relativePoint="BOTTOM" offsetY="10" />
+						</Label>
+						<Label name="$(parent)Ritual3" font="ZoFontWinH3" color="6BC7Ef" text="Piercing: " >
+							<Anchor point="TOP" relativeTo="$(parent)Ritual2" relativePoint="BOTTOM" offsetY="10" />
+						</Label>
+						<Label name="$(parent)Ritual4" font="ZoFontWinH3" color="6BC7Ef" text="Mighty: " >
+							<Anchor point="TOP" relativeTo="$(parent)Ritual3" relativePoint="BOTTOM" offsetY="10" />
+						</Label>
+					</Controls>
+				</Backdrop>
+			</Controls>
+		</Backdrop>
+		
+		<Backdrop name="$(parent)ThiefBG" centerColor="000000" edgeColor="000000" >
+			<Dimensions x="647" y = "154" />
+			<Anchor point = "BOTTOMLEFT" relativeTo="$(parent)CPDisplay" relativePoint="BOTTOMLEFT" offsetX="1" offsetY="-1" />
+			<Controls>
+				<Backdrop name="$(parent)Column1" centerColor="000000" edgeColor="000000" >
+					<Dimensions x="215" y = "154" />
+					<Anchor point = "BOTTOMLEFT" relativeTo="$(parent)" relativePoint="BOTTOMLEFT" />
+					<Controls>
+						<Label name="$(parent)Tower1" font="ZoFontWinH3" color="ACD752" text="Bashing Focus: " >
+							<Anchor point="TOP" relativeTo="$(parent)" relativePoint="TOP" offsetY="10" />
+						</Label>
+						<Label name="$(parent)Tower2" font="ZoFontWinH3" color="ACD752" text="Sprinter: " >
+							<Anchor point="TOP" relativeTo="$(parent)Tower1" relativePoint="BOTTOM" offsetY="10" />
+						</Label>
+						<Label name="$(parent)Tower3" font="ZoFontWinH3" color="ACD752" text="Siphoner: " >
+							<Anchor point="TOP" relativeTo="$(parent)Tower2" relativePoint="BOTTOM" offsetY="10" />
+						</Label>
+						<Label name="$(parent)Tower4" font="ZoFontWinH3" color="ACD752" text="Warlord: " >
+							<Anchor point="TOP" relativeTo="$(parent)Tower3" relativePoint="BOTTOM" offsetY="10" />
+						</Label>
+					</Controls>
+				</Backdrop>
+				<Backdrop name="$(parent)Column2" centerColor="000000" edgeColor="000000" >
+					<Dimensions x="217" y = "154" />
+					<Anchor point = "BOTTOM" relativeTo="$(parent)" relativePoint="BOTTOM" />
+					<Controls>
+						<Label name="$(parent)Lover1" font="ZoFontWinH3" color="ACD752" text="Mooncalf: " >
+							<Anchor point="TOP" relativeTo="$(parent)" relativePoint="TOP" offsetY="10" />
+						</Label>
+						<Label name="$(parent)Lover2" font="ZoFontWinH3" color="ACD752" text="Arcanist: " >
+							<Anchor point="TOP" relativeTo="$(parent)Lover1" relativePoint="BOTTOM" offsetY="10" />
+						</Label>
+						<Label name="$(parent)Lover3" font="ZoFontWinH3" color="ACD752" text="Healthy: " >
+							<Anchor point="TOP" relativeTo="$(parent)Lover2" relativePoint="BOTTOM" offsetY="10" />
+						</Label>
+						<Label name="$(parent)Lover4" font="ZoFontWinH3" color="ACD752" text="Tenacity: " >
+							<Anchor point="TOP" relativeTo="$(parent)Lover3" relativePoint="BOTTOM" offsetY="10" />
+						</Label>
+					</Controls>
+				</Backdrop>
+				<Backdrop name="$(parent)Column3" centerColor="000000" edgeColor="000000" >
+					<Dimensions x="215" y = "154" />
+					<Anchor point = "BOTTOMRIGHT" relativeTo="$(parent)" relativePoint="BOTTOMRIGHT" />
+					<Controls>
+						<Label name="$(parent)Shadow1" font="ZoFontWinH3" color="ACD752" text="Befoul: " >
+							<Anchor point="TOP" relativeTo="$(parent)" relativePoint="TOP" offsetY="10" />
+						</Label>
+						<Label name="$(parent)Shadow2" font="ZoFontWinH3" color="ACD752" text="Shade: " >
+							<Anchor point="TOP" relativeTo="$(parent)Shadow1" relativePoint="BOTTOM" offsetY="10" />
+						</Label>
+						<Label name="$(parent)Shadow3" font="ZoFontWinH3" color="ACD752" text="Shadow Ward: " >
+							<Anchor point="TOP" relativeTo="$(parent)Shadow2" relativePoint="BOTTOM" offsetY="10" />
+						</Label>
+						<Label name="$(parent)Shadow4" font="ZoFontWinH3" color="ACD752" text="Tumbling: " >
+							<Anchor point="TOP" relativeTo="$(parent)Shadow3" relativePoint="BOTTOM" offsetY="10" />
+						</Label>
+					</Controls>
+				</Backdrop>
+			</Controls>
+		</Backdrop>
+		
+     
       </Controls>
     </TopLevelControl>
+	
   </Controls>
 </GuiXml>

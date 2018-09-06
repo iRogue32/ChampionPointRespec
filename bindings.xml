@@ -2,7 +2,7 @@
 	<Layer name="SI_KEYBINDINGS_LAYER_GENERAL">
 		<Category name="ChampionPointRespec">
 			<Action name="CPR_TOGGLE_UI">
-				<Up>toggleCPRUI()</Up>
+				<Up>ChampionPointRespecV2.toggleCPRUI()</Up>
 			</Action>
 		</Category>
 	</Layer>
