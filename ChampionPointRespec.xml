@@ -30,7 +30,7 @@
 				<FontColors normalColor="FFFFFF" mouseOverColor="E8DFAF" />
 				<Dimensions x="250" y="35" />
 				<Anchor point="RIGHT" relativeTo="$(parent)" relativePoint="RIGHT" offsetX="-20" />
-				<OnClicked> ChampionPointRespecV2.DisplayLoadCPFromHashDialog() </OnClicked>
+				<OnClicked> ChampionPointRespecV2.LoadCPConiguration() </OnClicked>
 				<Controls>
 					<Backdrop name="$(parent)BG" centerColor="101010" edgeColor="202020">
 						<AnchorFill/>

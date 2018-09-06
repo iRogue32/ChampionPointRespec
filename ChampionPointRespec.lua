@@ -20,7 +20,9 @@ CPR2.Default = {
 		["relPoint"] = TOPRIGHT
 	},
 	
-	["convertFromOldSavedVariables"] = true
+	["convertFromOldSavedVariables"] = true,
+	["displayWarning"] = true,
+	["openUIWithCPWindow"] = true
 }
 
 -- saves cp hash to sv by name
@@ -85,6 +87,14 @@ function CPR2.DeleteCPHash(input)
 	CPR2.SetSelectedConfig(nil)
 	CPR2.PopulateDropdown()
 	ReloadUI()
+end
+
+function CPR2.LoadCPConiguration()
+	if CPR2.savedVariables["displayWarning"] then
+		CPR2.DisplayLoadCPFromHashDialog()
+	else 
+		CPR2.LoadCPFromHash()
+	end
 end
 
 function CPR2.DisplayCreateNewConfigDialog()
@@ -412,13 +422,17 @@ function CPR2:Initialize()
 	
 	ChampPointRespecWindow1CloseButton:SetHandler("OnClicked", function() ChampPointRespecWindow1:SetHidden(true) end)
 	
-	CHAMPION_PERKS_SCENE:RegisterCallback("StateChange", function(oldstate, newState)
-		if(CHAMPION_PERKS_SCENE:IsShowing()) then
-			ChampPointRespecWindow1:SetHidden(false)
-		else
-			ChampPointRespecWindow1:SetHidden(true)
-		end
-	end)
+	if CPR2.savedVariables["openUIWithCPWindow"] then 
+		CHAMPION_PERKS_SCENE:RegisterCallback("StateChange", function(oldstate, newState)
+			if(CHAMPION_PERKS_SCENE:IsShowing()) then
+				ChampPointRespecWindow1:SetHidden(false)
+			else
+				ChampPointRespecWindow1:SetHidden(true)
+			end
+		end)
+	end
+	
+	CPR2.InitializeAddonSettingsPanel()
 	
 	--SLASH_COMMANDS["/cphash"] = CPR2.createCPHash
 	--SLASH_COMMANDS["/savecphash"] = CPR2.saveCPHash
