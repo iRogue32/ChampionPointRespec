@@ -113,8 +113,21 @@ function CPR2.DisplayCreateNewConfigDialog()
 	ZO_Dialogs_ShowDialog("CPR2_SAVE_CONFIG", nil, nil);
 end
 
+function CPR2.DisplaySaveCurrentConfigDialog()
+	ZO_Dialogs_ShowDialog("CPR2_SAVE_CURRENT_CONFIG", nil, nil);
+end
+
 function CPR2.DisplayLoadCPFromHashDialog()
 	ZO_Dialogs_ShowDialog("CPR2_CHAMPION_CONFIRM_COST", nil, { mainTextParams = { GetChampionRespecCost(), ZO_Currency_GetPlatformFormattedGoldIcon() } });
+end
+
+function CPR2.OverwriteConfig(config)
+	local hash = CPR2.createCPHash()
+	CPR2.savedVariables.specs[config].hash = hash
+	CPR2.configSelected = config
+	CPR2.PopulateDropdown()
+	CPR2.UpdateUI()
+	OverwriteWindow:SetHidden(true)
 end
 
 function CPR2.SetSelectedConfig(name)
@@ -171,6 +184,38 @@ function CPR2.PopulateDropdown()
 		end
 	end
 	ChampPointRespecWindow1ConfigSelectorPanelScrollChild:SetHeight(#CPR2.savedVariables.specs * 22 + 10)
+end
+
+function CPR2.PopulateOverwriteDropdown()
+	local numConfigs = 0
+	for k, v in pairs (CPR2.savedVariables.specs) do
+		local button = WINDOW_MANAGER:GetControlByName("OverwriteWindowSelectorScrollChildButton"..k)
+		if not button then
+			button = WINDOW_MANAGER:CreateControl("OverwriteWindowSelectorScrollChildButton"..k, OverwriteWindowSelectorScrollChild, CT_BUTTON)
+			button:SetAnchor(TOPLEFT, OverwriteWindowSelectorPanelScrollChild, TOPLEFT, 8, 5 + (k - 1) * 22)
+			button:SetDimensions(280, 22)
+			button:SetText(v.name)
+			button:SetFont("ZoFontWinH4")
+			button:SetHorizontalAlignment(0)
+			button:SetVerticalAlignment(1)
+			button:SetClickSound("Click")
+			button:SetNormalFontColor(1.0,1.0,1.0,1)
+			button:SetMouseOverFontColor(0.91,0.875,0.686,1)
+			button:SetHandler("OnMouseDown", function() CPR2.OverwriteConfig(k) end)
+		else 
+			button:SetText(v.name)
+		end
+		numConfigs = numConfigs + 1
+	end
+	local control = WINDOW_MANAGER:GetControlByName("OverwriteWindowSelectorScrollChild")
+	local numChild = control:GetNumChildren()
+	if numChild > numConfigs then 
+		for i = numConfigs + 1, numChild, 1 do
+			local button = WINDOW_MANAGER:GetControlByName("OverwriteWindowSelectorPanelScrollChildButton"..i)
+			button:SetHidden(true)
+		end
+	end
+	OverwriteWindowSelectorScrollChild:SetHeight(#CPR2.savedVariables.specs * 22 + 10)
 end
 
 function CPR2.UpdateAspectSelected(aspect)
@@ -295,6 +340,12 @@ function CPR2.toggleCPRUI()
 	end
 end
 
+function CPR2.DisplayOverwriteWindow()
+	OverwriteWindow:SetHidden(false) 
+	CPR2.PopulateOverwriteDropdown() 
+	SetGameCameraUIMode(true)
+end
+
 function CPR2.savePositions(self)
 	local valid, point, _, relPoint, offsetX, offsetY = self:GetAnchor(0)
 	if valid then
@@ -327,6 +378,11 @@ function CPR2.ConvertOldSavedVariables()
 		end
 	end
 	CPR2.savedVariables.convertFromOldSavedVariables = false
+end
+
+function CPR2.WhyZOS()
+	d("why zos?")
+	zo_callLater(function () CPR2.DisplayCreateNewConfigDialog() end, 100)
 end
 
 function CPR2:Initialize()
@@ -382,7 +438,34 @@ function CPR2:Initialize()
         }
     })
 	
-	-- INITIALIZE CREATE CONFIG DIALOGE --
+	-- INITIALIZE SAVE CURRENT CONFIG DIALOGUE --
+	
+	ZO_Dialogs_RegisterCustomDialog("CPR2_SAVE_CURRENT_CONFIG",
+	{
+        gamepadInfo = {
+            dialogType = GAMEPAD_DIALOGS.BASIC,
+        },
+        title = {
+            text = "Save Current CP Configuration",
+        },
+        mainText = {
+            text = "Create a new configuration or overwrite and existing one?",
+        },
+        buttons = {
+            {
+                text = "Create New",
+                callback = function() zo_callLater(function () CPR2.DisplayCreateNewConfigDialog() end, 100)
+                end,
+            },
+            {
+                text = "Overwrite Existing",
+                callback = function() zo_callLater(function () CPR2.DisplayOverwriteWindow() end,100)
+                end,
+            }
+        }
+    })
+	
+	-- INITIALIZE CREATE NEW CONFIG DIALOGE --
 	
 	ZO_Dialogs_RegisterCustomDialog("CPR2_SAVE_CONFIG",
 	{
@@ -406,7 +489,7 @@ function CPR2:Initialize()
             },
             {
                 text = SI_DIALOG_CANCEL,
-                callback = function()
+                callback = function() 
                 end,
             }
         }
@@ -446,7 +529,7 @@ function CPR2:Initialize()
 	
 	CPR2.InitializeAddonSettingsPanel()
 	
-	SLASH_COMMANDS["/cpr"] = CPR2.LoadCPConfigFromName
+	--SLASH_COMMANDS["/cpr"] = CPR2.LoadCPConfigFromName
 	--SLASH_COMMANDS["/cphash"] = CPR2.createCPHash
 	--SLASH_COMMANDS["/savecphash"] = CPR2.saveCPHash
 	--SLASH_COMMANDS["/deletecphash"] = CPR2.DeleteCPHash

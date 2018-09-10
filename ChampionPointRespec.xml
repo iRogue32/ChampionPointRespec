@@ -42,7 +42,7 @@
 				<FontColors normalColor="FFFFFF" mouseOverColor="E8DFAF" />
 				<Dimensions x="250" y="35" />
 				<Anchor point="BOTTOM" relativeTo="$(parent)LoadConfigButton" relativePoint="TOP" offsetY="-15" />
-				<OnClicked> ChampionPointRespecV2.DisplayCreateNewConfigDialog() </OnClicked>
+				<OnClicked> ChampionPointRespecV2.DisplaySaveCurrentConfigDialog() </OnClicked>
 				<Controls>
 					<Backdrop name="$(parent)BG" centerColor="101010" edgeColor="202020">
 						<AnchorFill/>
@@ -338,6 +338,37 @@
      
       </Controls>
     </TopLevelControl>
+	
+	<TopLevelControl name="OverwriteWindow" mouseEnabled="true" movable="false" clampedToScreen="true" hidden="true" >
+        <Dimensions x="325" y="350"/>
+        <Anchor point="CENTER" relativeTo="GuiRoot" relativePoint="CENTER" />
+	
+	  <Controls>
+
+		  <Label name="$(parent)title" font="ZoFontHeader" color="FFFFFF" text="Choose which configuration to overwrite: " >
+			  <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetY="5" offsetX="5"/>
+		  </Label>
+
+		  <Backdrop name="$(parent)BG" centerColor="080808" edgeColor="202020" inherits="ZO_ScrollContainerBase" hidden="false"  >
+			<Anchor point="CENTER" relativePoint="CENTER" relativeTo="$(parent)" offsetX="0" offsetY="0"/>
+			<Dimensions x="325" y="350"/>
+			<Edge edgeSize="1"/>
+		  </Backdrop>
+			
+		<Backdrop name="$(parent)Selector" tier="1" centerColor="202020" edgeColor="202020" inherits="ZO_ScrollContainerBase" hidden="false"  >
+          <Anchor point="CENTER" relativePoint="CENTER" relativeTo="$(parent)" offsetX="0" offsetY="10"/>
+          <Dimensions x="305" y="300"/>
+          <Edge edgeSize="1"/>
+          <OnInitialized>ZO_Scroll_Initialize(self)</OnInitialized>
+          <Controls>
+            <Control name="$(parent)ScrollChild" >
+              <OnInitialized>self:SetParent(self:GetParent():GetNamedChild("Scroll"));self:SetAnchor(3,nil,3,0,0)</OnInitialized>
+            </Control>
+          </Controls>
+        </Backdrop>
+	  
+	  </Controls>
+	 </TopLevelControl>
 	
   </Controls>
 </GuiXml>
