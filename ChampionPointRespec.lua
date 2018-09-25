@@ -517,6 +517,8 @@ function CPR2:Initialize()
 	
 	ChampPointRespecWindow1CloseButton:SetHandler("OnClicked", function() ChampPointRespecWindow1:SetHidden(true) end)
 	
+	OverwriteWindowCancelButton:SetHandler("OnClicked", function() OverwriteWindow:SetHidden(true) end)
+	
 	if CPR2.savedVariables["openUIWithCPWindow"] then 
 		CHAMPION_PERKS_SCENE:RegisterCallback("StateChange", function(oldstate, newState)
 			if(CHAMPION_PERKS_SCENE:IsShowing()) then
@@ -529,6 +531,7 @@ function CPR2:Initialize()
 	
 	CPR2.InitializeAddonSettingsPanel()
 	
+	--SLASH_COMMANDS["/cpr"] = CPR2.ToggleScene
 	--SLASH_COMMANDS["/cpr"] = CPR2.LoadCPConfigFromName
 	--SLASH_COMMANDS["/cphash"] = CPR2.createCPHash
 	--SLASH_COMMANDS["/savecphash"] = CPR2.saveCPHash
