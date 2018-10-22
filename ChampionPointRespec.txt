@@ -2,7 +2,7 @@
 ## Description:
 ## Author: iRogue32
 ## Version: 2.1.0
-## APIVersion: 100024
+## APIVersion: 100025
 ## SavedVariables: ChampionPointRespec_sv CPR2
 ## OptionalDependOn: LibAddonMenu-2.0
 
