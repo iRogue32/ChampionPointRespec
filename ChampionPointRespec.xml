@@ -1,7 +1,7 @@
 <GuiXml>
   <Controls>
-    <TopLevelControl name="ChampPointRespecWindow1" mouseEnabled="true" movable="true" clampedToScreen="true" hidden="true" >
-      <Dimensions x="675" y="500" />
+    <TopLevelControl name="ChampPointRespecWindow1" mouseEnabled="true" movable="true" clampedToScreen="true" hidden="true" allowBringToTop="true" >
+      <Dimensions x="675" y="640" />
 	  <Anchor point="TOPRIGHT" relativeTo="GuiRoot" relativePoint="TOPRIGHT" />
 	
 	  <Controls>
@@ -335,6 +335,37 @@
 			</Controls>
 		</Backdrop>
 		
+		<Backdrop name="$(parent)ImportExportBG"  centerColor="000000" edgeColor="FFFFFF" >
+		  <Dimensions x="649" y="120" />
+		  <Edge edgeSize="1" />
+		  <Anchor point="BOTTOM" relativeTo="$(parent)" relativePoint="BOTTOM" offsetY="-15" />
+		  <Controls>
+			<Button name="$(parent)ImportButton" horizontalAlignment="1" verticalAlignment="1" font="ZoFontWinH4" clickSound="Click" text="Import Configuration" >
+				<FontColors normalColor="FFFFFF" mouseOverColor="E8DFAF" />
+				<Dimensions x="250" y="35" />
+				<Anchor point="LEFT" relativeTo="$(parent)" relativePoint="LEFT" offsetX="30" />
+				<OnClicked> zo_callLater(function () ZO_Dialogs_ShowDialog("CPR2_IMPORT_CONFIG", nil, nil) end, 100) </OnClicked>
+				<Controls>
+					<Backdrop name="$(parent)BG" centerColor="101010" edgeColor="202020">
+						<AnchorFill/>
+						<Edge edgeSize="1"/>
+					</Backdrop>
+				</Controls>
+			</Button>
+			<Button name="$(parent)ExportButton" horizontalAlignment="1" verticalAlignment="1" font="ZoFontWinH4" clickSound="Click" text="Export Configuration" >
+				<FontColors normalColor="FFFFFF" mouseOverColor="E8DFAF" />
+				<Dimensions x="250" y="35" />
+				<Anchor point="RIGHT" relativeTo="$(parent)" relativePoint="RIGHT" offsetX="-30" />
+				<OnClicked> ChampionPointRespecV2.DisplayExportWindow() </OnClicked>
+				<Controls>
+					<Backdrop name="$(parent)BG" centerColor="101010" edgeColor="202020">
+						<AnchorFill/>
+						<Edge edgeSize="1"/>
+					</Backdrop>
+				</Controls>
+			</Button>
+		  </Controls>
+		</Backdrop>
      
       </Controls>
     </TopLevelControl>
@@ -382,5 +413,46 @@
 	  </Controls>
 	 </TopLevelControl>
 	
+	 <TopLevelControl name="ExportWindow" mouseEnabled="true" movable="false" clampedToScreen="true" hidden="true" >
+        <Dimensions x="400" y="330"/>
+        <Anchor point="CENTER" relativeTo="GuiRoot" relativePoint="CENTER" />
+	
+	  <Controls>
+
+		  <Label name="$(parent)Title" font="ZoFontHeader" color="FFFFFF" text="Copy this hash: " >
+			  <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetY="5" offsetX="20"/>
+		  </Label>
+
+		  <Backdrop name="$(parent)BG" centerColor="080808" edgeColor="202020" hidden="false"  >
+			<AnchorFill />
+			<Edge edgeSize="1" />
+		  </Backdrop>
+		  
+		  <Backdrop name="$(parent)EditBoxBG" inherits="ZO_MultiLineEditBackdrop_Keyboard" hidden="false"  >
+			<Anchor point="CENTER" relativePoint="CENTER" relativeTo="$(parent)" offsetX="0" offsetY="-10"/>
+			<Dimensions y="200" x="360"/>
+			<Controls>
+				<EditBox name="$(parent)EditBox" inherits="ZO_DefaultEditMultiLine" hidden="false"  >
+					<Anchor point="CENTER" relativePoint="CENTER" relativeTo="$(parent)" offsetX="0" offsetY="0"/>
+					<Dimensions x="355" y="200" />
+				</EditBox>
+			</Controls>
+		  </Backdrop>
+	  
+		<Button name="$(parent)CloseButton" horizontalAlignment="1" verticalAlignment="1" font="ZoFontWinH4" clickSound="Click" text="Cancel" >
+          <FontColors normalColor="FFFFFF" mouseOverColor="E8DFAF"/>
+          <Anchor point="BOTTOM" relativePoint="BOTTOM" relativeTo="$(parent)" offsetY="-10" offsetX="0"/>
+          <Dimensions x="75" y="35"/>
+          <Controls>
+            <Backdrop name="$(parent)BG" centerColor="101010" edgeColor="202020">
+              <AnchorFill/>
+              <Edge edgeSize="1"/>
+            </Backdrop>
+          </Controls>
+        </Button>
+	  
+	  </Controls>
+	 </TopLevelControl>
+	 
   </Controls>
 </GuiXml>

@@ -1,12 +1,22 @@
 ## Title: Champion Point Respec
 ## Description:
 ## Author: iRogue32
-## Version: 2.1.0
+## Version: 2.4.0
 ## APIVersion: 100025
 ## SavedVariables: ChampionPointRespec_sv CPR2
 ## OptionalDependOn: LibAddonMenu-2.0
 
 ; Changelog:
+;Version 2.4.0 (2/17/2019)
+; * Added Import and Export features
+; * Deleting a config no longer requires a reloadui
+; * updated some slash commands
+;
+;Version 2.2.0 (10/22/2018)
+; * Updated API Version to Murkmire
+;
+;Version 2.2.0 (9/25/2018)
+; * Added the ability to overwrite saved configurations
 ;
 ;Version 2.1.0 (9/6/2018)
 ; * Mouse will enabled and disabled when the UI is opened or closed
@@ -60,6 +70,7 @@ libs\LibAddonMenu-2.0\controls\divider.lua
 
 ChampionPointRespecHelpers.lua
 ChampionPointRespecSettingsPanel.lua
+ChampionPointRespecImportExport.lua
 ChampionPointRespec.lua
 ChampionPointRespec.xml
 lang/en.lua

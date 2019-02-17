@@ -25,15 +25,17 @@ CPR2.Default = {
 	["openUIWithCPWindow"] = true
 }
 
--- saves cp hash to sv by name
-function CPR2.saveCPHash(input)
-	if not CPR2.IsValidName(input) then
-		return CPR2.NotValidName(input)
+-- saves cp hash to saved variables
+function CPR2.saveCPHash(name, h)
+	if not CPR2.IsValidName(name) then
+		return CPR2.NotValidName(name)
 	end
-	local h = CPR2.createCPHash()
-	table.insert(CPR2.savedVariables.specs, {name = input, hash = h})
+	if h == nil then 
+		h = CPR2.createCPHash()
+	end
+	table.insert(CPR2.savedVariables.specs, {name = name, hash = h})
 	CPR2.PopulateDropdown()
-	CPR2.SetSelectedConfig(input)
+	CPR2.SetSelectedConfig(name)
 end
 
 -- checks if config name is already in use
@@ -86,7 +88,7 @@ function CPR2.DeleteCPHash(input)
 	table.remove(CPR2.savedVariables.specs, CPR2.configSelected)
 	CPR2.SetSelectedConfig(nil)
 	CPR2.PopulateDropdown()
-	ReloadUI()
+	CPR2.UpdateUI()
 end
 
 function CPR2.LoadCPConfigFromName(input)
@@ -109,8 +111,19 @@ function CPR2.LoadCPConfiguration()
 	end
 end
 
+--prints sv to chat
+function CPR2.PrintSV()
+	for k, v in pairs(CPR2.savedVariables.specs) do
+		d(v.name)
+	end
+end
+
 function CPR2.DisplayCreateNewConfigDialog()
 	ZO_Dialogs_ShowDialog("CPR2_SAVE_CONFIG", nil, nil);
+end
+
+function CPR2.DisplayImportConfigDialog()
+	ZO_Dialogs_ShowDialog("CPR2_IMPORT_CONFIG", nil, nil);
 end
 
 function CPR2.DisplaySaveCurrentConfigDialog()
@@ -131,6 +144,7 @@ function CPR2.OverwriteConfig(config)
 end
 
 function CPR2.SetSelectedConfig(name)
+	--d(name)
 	if name == nil then
 		CPR2.configSelected = 0
 		CPR2.UpdateUI()
@@ -172,6 +186,7 @@ function CPR2.PopulateDropdown()
 			button:SetHandler("OnMouseDown", function() CPR2.SetSelectedConfig(v.name) end)
 		else 
 			button:SetText(v.name)
+			button:SetHandler("OnMouseDown", function() CPR2.SetSelectedConfig(v.name) end)
 		end
 		numConfigs = numConfigs + 1
 	end
@@ -238,11 +253,15 @@ function CPR2.UpdateUI()
 		ChampPointRespecWindow1ConfigSelector:SetText("Select CP Configuration")
 		ChampPointRespecWindow1LoadProfileBGLoadConfigButton:SetEnabled(false)
 		ChampPointRespecWindow1LoadProfileBGDeleteConfigButton:SetEnabled(false)
+		ChampPointRespecWindow1ImportExportBGExportButton:SetEnabled(false)
+		ChampPointRespecWindow1ImportExportBGExportButton:SetEnabled(false)
 	end
 	if CPR2.configSelected > 0 then 
 		ChampPointRespecWindow1ConfigSelector:SetText(CPR2.savedVariables.specs[CPR2.configSelected].name)
 		ChampPointRespecWindow1LoadProfileBGLoadConfigButton:SetEnabled(true)
 		ChampPointRespecWindow1LoadProfileBGDeleteConfigButton:SetEnabled(true)
+		ChampPointRespecWindow1ImportExportBGExportButton:SetEnabled(true)
+		ChampPointRespecWindow1ImportExportBGExportButton:SetEnabled(true)
 	end
 	
 	if CPR2.aspectSelected == CPR2.HEALTH_ASPECT then
@@ -484,7 +503,67 @@ function CPR2:Initialize()
         buttons = {
             {
                 text = SI_DIALOG_CONFIRM,
-                callback = function(dialog) CPR2.saveCPHash(ZO_Dialogs_GetEditBoxText(dialog))
+                callback = function(dialog) CPR2.saveCPHash(ZO_Dialogs_GetEditBoxText(dialog), nil)
+                end,
+            },
+            {
+                text = SI_DIALOG_CANCEL,
+                callback = function() 
+                end,
+            }
+        }
+    })
+	
+	-- INITIALIZE IMPORT CONFIG DIALOGE --
+	
+	ZO_Dialogs_RegisterCustomDialog("CPR2_IMPORT_CONFIG",
+	{
+        gamepadInfo = {
+            dialogType = GAMEPAD_DIALOGS.BASIC,
+        },
+        title = {
+            text = "Import Configuration",
+        },
+        mainText = {
+            text = "Enter a valid config hash: ",
+        },
+		editBox = { defaultText = ""
+			
+		},
+        buttons = {
+            {
+                text = SI_DIALOG_CONFIRM,
+                callback = function(dialog) CPR2.ImportHash(ZO_Dialogs_GetEditBoxText(dialog))
+                end,
+            },
+            {
+                text = SI_DIALOG_CANCEL,
+                callback = function() 
+                end,
+            }
+        }
+    })
+	
+	-- INITIALIZE IMPORT CONFIG NAME DIALOGE --
+	
+	ZO_Dialogs_RegisterCustomDialog("CPR2_IMPORT_CONFIG_NAME",
+	{
+        gamepadInfo = {
+            dialogType = GAMEPAD_DIALOGS.BASIC,
+        },
+        title = {
+            text = "Import Configuration",
+        },
+        mainText = {
+            text = "Enter a name: ",
+        },
+		editBox = { defaultText = ""
+			
+		},
+        buttons = {
+            {
+                text = SI_DIALOG_CONFIRM,
+                callback = function(dialog) CPR2.saveCPHash(ZO_Dialogs_GetEditBoxText(dialog), CPR2.importedHash)
                 end,
             },
             {
@@ -501,13 +580,20 @@ function CPR2:Initialize()
 	
 	CPR2.configSelector:SetHandler("OnMouseEnter", ZO_Options_OnMouseEnter)
 	CPR2.configSelector:SetHandler("OnMouseExit", ZO_Options_OnMouseExit)
+	-- export config button tooltip
+	CPR2.exportConfigButton = WINDOW_MANAGER:GetControlByName("ChampPointRespecWindow1ImportExportBGExportButton")
 	
-	CPR2.deleteConfigButton = WINDOW_MANAGER:GetControlByName("ChampPointRespecWindow1LoadProfileBGDeleteConfigButton")
+	CPR2.exportConfigButton.data = { tooltipText = "Generates an export hash for currently selected configuration"}
+
+	CPR2.exportConfigButton:SetHandler("OnMouseEnter", ZO_Options_OnMouseEnter)
+	CPR2.exportConfigButton:SetHandler("OnMouseExit", ZO_Options_OnMouseExit)
+	-- import config button tooltip
+	CPR2.importConfigButton = WINDOW_MANAGER:GetControlByName("ChampPointRespecWindow1ImportExportBGImportButton")
 	
-	CPR2.deleteConfigButton.data = { tooltipText = "Deleting a Config will reload ui"}
+	CPR2.importConfigButton.data = { tooltipText = "Opens a window to import a configuration"}
 	
-	CPR2.deleteConfigButton:SetHandler("OnMouseEnter", ZO_Options_OnMouseEnter)
-	CPR2.deleteConfigButton:SetHandler("OnMouseExit", ZO_Options_OnMouseExit)
+	CPR2.importConfigButton:SetHandler("OnMouseEnter", ZO_Options_OnMouseEnter)
+	CPR2.importConfigButton:SetHandler("OnMouseExit", ZO_Options_OnMouseExit)
 	
 	CPR2.UpdateUI()
 	
@@ -518,6 +604,8 @@ function CPR2:Initialize()
 	ChampPointRespecWindow1CloseButton:SetHandler("OnClicked", function() ChampPointRespecWindow1:SetHidden(true) end)
 	
 	OverwriteWindowCancelButton:SetHandler("OnClicked", function() OverwriteWindow:SetHidden(true) end)
+	
+	ExportWindowCloseButton:SetHandler("OnClicked", function() ExportWindow:SetHidden(true) end)
 	
 	if CPR2.savedVariables["openUIWithCPWindow"] then 
 		CHAMPION_PERKS_SCENE:RegisterCallback("StateChange", function(oldstate, newState)
@@ -531,7 +619,9 @@ function CPR2:Initialize()
 	
 	CPR2.InitializeAddonSettingsPanel()
 	
-	--SLASH_COMMANDS["/cpr"] = CPR2.ToggleScene
+	--SLASH_COMMANDS["/testexport"] = CPR2.DisplayExportWindow
+	SLASH_COMMANDS["/cpr"] = CPR2.ToggleScene
+	--SLASH_COMMANDS["/cprprintsv"] = CPR2.PrintSV
 	--SLASH_COMMANDS["/cpr"] = CPR2.LoadCPConfigFromName
 	--SLASH_COMMANDS["/cphash"] = CPR2.createCPHash
 	--SLASH_COMMANDS["/savecphash"] = CPR2.saveCPHash

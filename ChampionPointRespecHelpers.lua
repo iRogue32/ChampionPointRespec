@@ -22,8 +22,20 @@ local base64bytes = {['A']=0,['B']=1,['C']=2,['D']=3,['E']=4,['F']=5,['G']=6,['H
 -- gets decimal from base64
 function CPR2.GetBase10(input)
 	local first = string.sub(input, 1, 1)
+	if first == nil then
+		return nil
+	end
+	if base64bytes[first] == nil then
+		return nil
+	end
 	first = base64bytes[first] * 64
 	local second = string.sub(input, 2, 2)
+	if second == nil then
+		return nil
+	end
+	if base64bytes[second] == nil then
+		return nil
+	end
 	second = base64bytes[second]
 --	d(first + second)
 	return first + second
