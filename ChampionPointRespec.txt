@@ -1,8 +1,8 @@
 ## Title: Champion Point Respec
 ## Description:
 ## Author: iRogue32
-## Version: 2.4.0
-## APIVersion: 100025
+## Version: 2.4.1
+## APIVersion: 100033
 ## SavedVariables: ChampionPointRespec_sv CPR2
 ## OptionalDependOn: LibAddonMenu-2.0
 
