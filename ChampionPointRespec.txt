@@ -1,11 +1,18 @@
 ## Title: Champion Point Respec
 ## Description:
 ## Author: iRogue32
-## Version: 2.4.1
+## Version: 2.4.2
 ## APIVersion: 100033
 ## SavedVariables: ChampionPointRespec_sv CPR2
-## OptionalDependOn: LibAddonMenu-2.0
+## DependOn: LibAddonMenu-2.0>=30
 
+;Version 2.4.2 (1/4/2021)
+; * Removed lib folder
+; * Updated .txt do depend on LibAddonMenu-2.0
+;
+;Version 2.4.1 (1/2/2021)
+; * Updated API Version to Murkmire
+;
 ; Changelog:
 ;Version 2.4.0 (2/17/2019)
 ; * Added Import and Export features
@@ -50,23 +57,6 @@
 ;
 ; Version 1.0.0 (1/22/2018)
 ; * Initial Release (Morrowind)
-
-libs\LibStub\LibStub.lua
-libs\LibAddonMenu-2.0\LibAddonMenu-2.0.lua
-libs\LibAddonMenu-2.0\controls\panel.lua
-libs\LibAddonMenu-2.0\controls\submenu.lua
-libs\LibAddonMenu-2.0\controls\button.lua
-libs\LibAddonMenu-2.0\controls\checkbox.lua
-libs\LibAddonMenu-2.0\controls\colorpicker.lua
-libs\LibAddonMenu-2.0\controls\custom.lua
-libs\LibAddonMenu-2.0\controls\description.lua
-libs\LibAddonMenu-2.0\controls\dropdown.lua
-libs\LibAddonMenu-2.0\controls\editbox.lua
-libs\LibAddonMenu-2.0\controls\header.lua
-libs\LibAddonMenu-2.0\controls\slider.lua
-libs\LibAddonMenu-2.0\controls\texture.lua
-libs\LibAddonMenu-2.0\controls\iconpicker.lua
-libs\LibAddonMenu-2.0\controls\divider.lua
 
 ChampionPointRespecHelpers.lua
 ChampionPointRespecSettingsPanel.lua
