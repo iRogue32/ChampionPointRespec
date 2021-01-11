@@ -4,8 +4,11 @@
 ## Version: 2.4.2
 ## APIVersion: 100033
 ## SavedVariables: ChampionPointRespec_sv CPR2
-## DependOn: LibAddonMenu-2.0>=30
+## DependsOn: LibAddonMenu-2.0>=30
 
+;Version 2.4.3 (1/11/2021)
+; * Fixed Spelling Error in .txt
+;
 ;Version 2.4.2 (1/4/2021)
 ; * Removed lib folder
 ; * Updated .txt do depend on LibAddonMenu-2.0
